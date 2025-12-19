@@ -1,0 +1,36 @@
+{
+  "id": "floating-apart",
+  "title": "Floating Apart",
+  "slug": "floating-apart",
+  "type": "single",
+  "status": "released",
+  "dates": {
+    "completed": "2025-12-19",
+    "published": "2025-12-19"
+  },
+  "duration": "3:42",
+  "duration_seconds": 222,
+  "credits": {
+    "written_by": "Kevin Hyde",
+    "performed_by": "Kevin Hyde",
+    "produced_by": "Kevin Hyde",
+    "recorded_at": "Dismal Nitch",
+    "location": "Seattle"
+  },
+  "files": {
+    "audio": {
+      "mp3_320": "audio/floating-apart.mp3"
+    },
+    "artwork": {
+      "placeholder": "artwork/floating-apart-placeholder.svg"
+    }
+  },
+  "description": "",
+  "tags": [],
+  "copyright": {
+    "year": 2025,
+    "holder": "Kevin Hyde",
+    "registration_number": null,
+    "registration_date": null
+  }
+}
