@@ -1,0 +1,20 @@
+{
+  "title": "First Light",
+  "artist": "Kevin Hyde",
+  "role": "Everything",
+  "date": "2014-05",
+  "format": "Self-released",
+  "cover": "/covers/first-light.svg",
+  "coverAlt": "Thin pale line low on an almost black field",
+  "outlets": [],
+  "selfHosted": {
+    "tracks": [
+      {
+        "title": "First Light",
+        "src": "/audio/first-light.mp3",
+        "duration": "0:10"
+      }
+    ]
+  },
+  "credits": []
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Floating Apart",
+  "artist": "Dismal Nitch",
+  "role": "Everything",
+  "date": "2026-03",
+  "format": "Single",
+  "cover": "/covers/floating-apart.svg",
+  "coverAlt": "Pale horizontal band dissolving into a dark field",
+  "outlets": [],
+  "selfHosted": {
+    "tracks": [
+      {
+        "title": "Floating Apart",
+        "src": "/audio/floating-apart.mp3",
+        "duration": "0:14"
+      }
+    ]
+  },
+  "myPart": "Written, played, and mixed over one long week in the back room. The take that stuck was the third one, with the window open.",
+  "credits": [
+    {
+      "role": "Written by",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Performance",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Mix",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Master",
+      "name": "Ilse Verhoeven"
+    }
+  ]
+}

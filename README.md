@@ -1,93 +1,98 @@
-# Kevin Hyde Music
+# music.kevinhyde.com
 
-Release site at [music.kevinhyde.com](https://music.kevinhyde.com) — the
-canonical home for the music, with links out to Bandcamp, Spotify, and
-SoundCloud.
+A discography of every recording Kevin Hyde has contributed to — as
+performer, producer, engineer, or self-released. Releases may live on
+Bandcamp, Spotify, SoundCloud, several of these, or nowhere at all
+(self-hosted audio).
 
-Static HTML and CSS. No build step, no dependencies. Cloudflare Pages
-deploys `main` on push.
+Built from the "Music Site" Design canvas, iteration #4 "Hanging dates,
+grid". **The cover art carries the visuals**; everything else is quiet type
+on a warm near-black ground with a faint film grain.
 
-## Layout
+## Stack
 
-```
-index.html        The whole site: releases, platform links, about
-styles.css        Baseline styles (deliberately plain — design is TBD)
-audio/            MP3 / Opus files
-artwork/          Cover art, 1400x1400
-catalog/          Per-release JSON metadata (source of truth)
-docs/             How to add a release; self-hosting options
+Astro 7, statically generated, deployed on Vercel. Two dependencies
+(`astro`, `sharp`), zero npm advisories. No CMS, no database, no adapter —
+Vercel detects Astro, runs `astro build`, and serves `dist/`.
+
+```bash
+npm install
+npm run dev        # localhost:4321
+npm run build      # same build Vercel runs
+npm run preview
 ```
 
 ## Adding a release
 
-See **[docs/adding-a-release.md](docs/adding-a-release.md)**. Short version:
-copy the `<li>` out of `<template id="release-template">` at the bottom of
-`index.html`, paste it at the top of the release list, replace the
-placeholders.
-
-## Where the slots are
-
-Everything that needs a URL you don't have yet is a commented-out slot in
-the markup, labelled `SLOT:`:
-
-| Slot | Location in `index.html` |
-| --- | --- |
-| Per-release platform links | `<nav class="listen-links">` in each release |
-| Per-release player embeds | `<details class="release__embed">` |
-| Artist profile links | `<section id="listen">` |
-| Liner notes | `<p class="release__notes">` |
-| Downloads / tip jar | `<footer class="release__footer">` |
-| Bio | `<section id="about">` |
-| Social / newsletter | `.footer-nav` |
-| Share image, favicon, RSS | `<head>` |
-
-Grep for them:
-
 ```bash
-grep -n "SLOT:" index.html
+npm run new -- "Floating Apart"
 ```
 
-Platform URLs also belong in the release's `catalog/*.json` under `links`
-and `embeds`, so there's one place to look them up later.
+Writes a JSON file, tells you the two files to drop in (`public/covers/…`
+and `public/audio/…`), and that's the whole workflow. Full detail in
+**[docs/adding-a-release.md](docs/adding-a-release.md)**.
 
-## Self-hosting
+A release needs at least one platform link **or** self-hosted audio. The
+build fails with a named file if it has neither.
 
-The site is already self-hosted in the sense that matters: the audio lives
-here and plays here, with no platform in the loop.
-**[docs/self-hosting.md](docs/self-hosting.md)** covers how far to push
-that — Opus encoding, RSS, Faircamp, object storage — and which options
-are not worth the trouble.
+## Layout
 
-## Local preview
-
-```bash
-python3 -m http.server 8000
+```
+src/
+  content/releases/*.json   One file per release. The content.
+  content.config.ts         Schema + build-time validation
+  lib/releases.ts           Sorting, date formatting, platform names
+  components/
+    TimelineRail.astro      The scroll-linked rail (the main interaction)
+    ReleaseRow.astro        One release on the index
+    Player.astro            Self-hosted audio player
+    OutletList.astro        Ruled platform rows
+    MobileYearBar.astro     Sticky year bar below 640px
+  pages/
+    index.astro             Timeline index
+    r/[slug].astro          Release detail
+  styles/tokens.css         Every colour, size, space, and duration
+public/
+  covers/  audio/  fonts/   Static assets
+scripts/
+  new-release.mjs           The scaffold above
+  generate-placeholder-covers.py
 ```
 
-## Notes on the markup
+## The seed data is fake
 
-- One `<article class="release">` per song, in a `<ol reversed>`, newest
-  first. Schema.org `MusicRecording` microdata throughout, with
-  `itemprop="sameAs"` on platform links so search engines treat this site
-  as the original and the platforms as copies.
-- Self-hosted `<audio>` is the default listening path. Third-party embeds
-  sit inside a collapsed `<details>` so their trackers and payloads don't
-  load unless someone opens them.
-- Skip link, visible focus rings, labelled landmarks, real `<dl>` for
-  credits, `alt` text on artwork. Headings go `h1 → h2 → h3` without
-  skipping.
+Twelve dummy releases spanning 2014–2026, chosen to exercise every branch
+in the design: self-hosted-only, outlets-only, both at once, year-only
+dates, multi-track players, missing liner notes, missing credits, an
+`other` platform with a custom label, and several releases sharing a year
+so the rail's first-of-year labelling has something to do.
 
-## Roadmap
+Covers are generated SVG placeholders
+(`scripts/generate-placeholder-covers.py`). Audio files are short sine
+tones. Everything in `src/content/releases/` is disposable — delete it all
+and run `npm run new` when the real catalogue is ready.
 
-- [ ] Fill in Bandcamp / Spotify / SoundCloud links and embeds
-- [ ] Real artwork to replace the SVG placeholder
-- [ ] Opus sources alongside MP3
-- [ ] `feed.xml` for release announcements
-- [ ] Design pass
-- [ ] Stripe tip jar
-- [ ] Album / collection pages
-- [ ] Generate `index.html` from `catalog/*.json` if hand-editing gets old
+## Verified against the spec
 
-## Copyright
+Automated checks covering §3–§9 of the handoff: rail activation at the 40%
+line, the distance ramp and its exact dash sizes and colours, label tiers,
+bottom-of-page forcing, click-to-scroll with `replaceState`, deep links,
+conditional detail sections, the player and its arrow-key seeking,
+keyboard reachability, and no horizontal scroll at 390/768/1440.
 
-All music © 2025 Kevin Hyde. All rights reserved.
+Lighthouse on `/` and `/r/[slug]`: **performance 100, accessibility 100,
+best practices 100, SEO 100.**
+
+## Decisions I had to make
+
+The spec left a few things open or self-conflicting. See
+**[docs/spec-decisions.md](docs/spec-decisions.md)** for the list and the
+reasoning — the contrast one in particular is worth a look, since it
+changes two token values from the canvas.
+
+## Still open (spec §10)
+
+- Real release data, covers, dates, roles
+- About and Contact content — both stubbed, anchors live
+- Long-catalog rail collapsing past ~30 releases (§4, undecided)
+- The mobile year-bar pattern (§6) is a guess, not canvas design

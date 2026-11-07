@@ -1,0 +1,21 @@
+{
+  "title": "Harbor Light",
+  "artist": "Dismal Nitch",
+  "role": "Bass, production",
+  "date": "2026-01",
+  "format": "EP",
+  "cover": "/covers/harbor-light.svg",
+  "coverAlt": "Soft vertical beam over a muted green ground",
+  "outlets": [
+    { "platform": "bandcamp", "url": "https://example.bandcamp.com/album/harbor-light" },
+    { "platform": "spotify", "url": "https://open.spotify.com/album/0000000000harborlight" },
+    { "platform": "soundcloud", "url": "https://soundcloud.com/example/sets/harbor-light" }
+  ],
+  "myPart": "Played bass on all four songs and produced the record. Most of it was tracked live in two afternoons.",
+  "credits": [
+    { "role": "Bass", "name": "Kevin Hyde" },
+    { "role": "Production", "name": "Kevin Hyde" },
+    { "role": "Vocals, guitar", "name": "Tessa Marchetti" },
+    { "role": "Drums", "name": "Owen Brandt" }
+  ]
+}

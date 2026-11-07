@@ -1,0 +1,18 @@
+{
+  "title": "Ninety Days of Rain",
+  "artist": "Marla Quist",
+  "role": "Producer, engineer",
+  "date": "2025-02",
+  "format": "Single",
+  "cover": "/covers/ninety-days-of-rain.svg",
+  "coverAlt": "Dense field of fine vertical streaks",
+  "outlets": [
+    { "platform": "soundcloud", "url": "https://soundcloud.com/example/ninety-days-of-rain" },
+    { "platform": "other", "url": "https://example.com/label/ninety-days-of-rain", "label": "Fathom Records" }
+  ],
+  "myPart": "Produced and engineered. Marla brought it in almost finished; the job was mostly getting out of the way.",
+  "credits": [
+    { "role": "Producer, engineer", "name": "Kevin Hyde" },
+    { "role": "Written, performed by", "name": "Marla Quist" }
+  ]
+}

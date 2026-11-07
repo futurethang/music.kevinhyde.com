@@ -1,74 +1,120 @@
 # Adding a release
 
-No build step. Edit files, commit, push; Cloudflare Pages deploys `main`.
+One command, two files, one commit. No CMS, no platform, no account.
 
-## 1. Export audio
+## The short version
 
-```
-ffmpeg -i master.wav -c:a libmp3lame -b:a 320k audio/song-slug.mp3
-ffmpeg -i master.wav -c:a libopus   -b:a 128k audio/song-slug.opus   # optional, half the size
-```
-
-Slug is lowercase with hyphens and is used for every related filename and
-for the page anchor, so pick it once and keep it.
-
-## 2. Artwork
-
-Put a 1400×1400 JPEG at `artwork/song-slug.jpg`, or a typographic SVG
-placeholder at `artwork/song-slug-placeholder.svg` until the real art
-exists.
-
-## 3. Catalog metadata
-
-```
-cp catalog/_template.json catalog/song-slug.json
+```bash
+npm run new -- "Floating Apart"
 ```
 
-Replace `SLUG` and `TITLE`, fill in dates and duration. The `links` and
-`embeds` objects are where platform URLs live once the release is up
-elsewhere. Nothing reads these files at runtime yet — they're the record
-of truth for when the site gets a generator, and they're the place to look
-up a URL rather than digging through HTML.
-
-## 4. The page
-
-Open `index.html`. At the bottom is `<template id="release-template">`.
-Copy the `<li>…</li>` inside it to the **top** of `<ol class="release-list">`
-(newest first) and replace every `SLUG`, `TITLE`, `YYYY-MM-DD`, and
-`PT0M00S` placeholder.
-
-Each release block has commented slots for:
-
-- extra `<source>` formats in the player
-- per-platform "Listen on" links (`<nav class="listen-links">`)
-- platform `<iframe>` embeds (`<details class="release__embed">`)
-- liner notes and credits
-- downloads and tip jar (`<footer class="release__footer">`)
-
-Delete the `<li class="listen-links__empty">` and
-`<p class="embed-frame__empty">` placeholder lines once you add real
-content to those blocks.
-
-## 5. Site-wide links
-
-Artist-level profile URLs (not per release) go in the
-`<section id="listen">` block. Those are the links to hand out in a bio or
-press kit.
-
-## 6. Check it
+That writes `src/content/releases/floating-apart.json` and prints the two
+files to drop in next:
 
 ```
-python3 -m http.server 8000
+public/covers/floating-apart.jpg     square, 1400x1400
+public/audio/floating-apart.mp3      320kbps
 ```
 
-Then open `http://localhost:8000`. Confirm playback, confirm the anchor
-link in the release title jumps correctly, and tab through the page to
-make sure focus order still makes sense.
+Then open the JSON, write a sentence or two in `myPart`, and commit.
+Vercel builds and deploys on push.
 
-## Why embeds are behind a `<details>`
+## Options
 
-Third-party iframes load trackers and a few hundred KB each the moment
-they're in the DOM. Keeping them inside a collapsed `<details>` means the
-browser doesn't fetch them until someone actually asks for that player.
-Your own `<audio>` element is the default listening path; the embeds are
-there for people who'd rather save the track to their own library.
+```bash
+npm run new -- "Harbor Light" --artist "Dismal Nitch" --format EP --date 2026-01
+```
+
+| Flag | Default |
+| --- | --- |
+| `--artist` | `Dismal Nitch` |
+| `--role` | `Everything` |
+| `--format` | `Single` (also `EP`, `LP`, `Self-released`, or anything) |
+| `--date` | the current month |
+| `--slug` | derived from the title |
+
+## The fields
+
+```jsonc
+{
+  "title": "Floating Apart",
+  "artist": "Dismal Nitch",       // whose record it is, not necessarily you
+  "role": "Bass, production",     // your part, short — shows under the title
+  "date": "2026-03",              // "YYYY-MM" or "YYYY"
+  "format": "Single",
+  "cover": "/covers/floating-apart.jpg",
+  "coverAlt": "...",              // real alt text, not the title again
+  "outlets": [],                  // platform links, see below
+  "selfHosted": { "tracks": [...] },
+  "myPart": "...",                // 1–3 sentences
+  "credits": [{ "role": "Mix", "name": "..." }]
+}
+```
+
+**A release needs at least one `outlets` entry or a `selfHosted` block.**
+A release with neither has no way to be listened to, so the build fails
+with a message naming the file. That check lives in `src/content.config.ts`.
+
+### Dates
+
+`"2026-03"` renders as a hanging `2026` with `Mar` under it. `"2026"`
+renders the year alone. Year-only releases sort as if they were December,
+so they sit above dated releases in the same year.
+
+### Outlets
+
+Add them as the release goes live anywhere. Order is preserved.
+
+```json
+"outlets": [
+  { "platform": "bandcamp",   "url": "https://..." },
+  { "platform": "spotify",    "url": "https://..." },
+  { "platform": "soundcloud", "url": "https://..." },
+  { "platform": "other",      "url": "https://...", "label": "Fathom Records" }
+]
+```
+
+Valid platforms: `bandcamp`, `spotify`, `soundcloud`, `apple`, `youtube`,
+`other`. Only `other` uses `label`. The detail page adds a hint per row —
+"buy / download" for Bandcamp, "stream" for the streaming services.
+
+### Self-hosted audio
+
+```json
+"selfHosted": {
+  "tracks": [
+    { "title": "Transom", "src": "/audio/transom.mp3", "duration": "4:10" }
+  ]
+}
+```
+
+`duration` is an optional listing hint; the player reads the real duration
+off the file. Multiple tracks render one row each behind a single `<audio>`
+element. Delete the whole `selfHosted` key if the audio lives elsewhere.
+
+A release with `selfHosted` and no outlets shows a single **Play here** row
+on the index that jumps to the detail page's player.
+
+## Removing or renaming
+
+Delete the JSON file, or rename it — the filename is the slug and the URL
+(`/r/<slug>`). Renaming changes the URL, so only do it before you've shared
+the link.
+
+## Local preview
+
+```bash
+npm run dev
+```
+
+The content collection hot-reloads, so editing a JSON file updates the page
+without a restart.
+
+## Checking before you push
+
+```bash
+npm run build
+```
+
+This is the same build Vercel runs. If a release is malformed, it fails
+here with the file path and the reason.

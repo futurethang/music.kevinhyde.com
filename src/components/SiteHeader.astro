@@ -1,0 +1,12 @@
+---
+interface Props { current?: 'index' | 'about' | 'contact' }
+const { current } = Astro.props;
+---
+<header class="site-header">
+  <a class="site-header__brand" href="/">Kevin Hyde</a>
+  <span class="site-header__sub">recordings</span>
+  <nav class="site-header__nav" aria-label="Site">
+    <a href="/about" aria-current={current === 'about' ? 'page' : undefined}>About</a>
+    <a href="/contact" aria-current={current === 'contact' ? 'page' : undefined}>Contact</a>
+  </nav>
+</header>

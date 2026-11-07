@@ -9,12 +9,16 @@ to push it, and where the real limits are.
 
 ## What you have now
 
-Static files served by Cloudflare Pages, audio in `/audio`, one `<audio>`
-element per release. No server, no database, no build step.
+A statically generated Astro site on Vercel. Audio in `public/audio`, a
+custom player on each release page, one JSON file per release. No server,
+no database, no CMS.
 
-- **Works today.** Nothing to maintain.
-- **Free at your scale.** Cloudflare Pages has no bandwidth charge on the
-  free plan. A 3.5 MB MP3 streamed 10,000 times is ~35 GB — fine.
+- **Works today.** `npm run new`, drop in two files, push.
+- **Watch the bandwidth.** This is the one place Vercel differs from
+  Cloudflare Pages: the Hobby plan includes a fixed amount of transfer per
+  month and audio is the heaviest thing you serve. A 3.5 MB MP3 streamed
+  10,000 times is ~35 GB. Check your current plan's allowance before a
+  release you expect to travel, and see Option 3 if it gets close.
 - **Full-file download.** The browser pulls the whole MP3 to seek around
   in it. At song length that's a non-issue; at album length it's wasteful
   on mobile data.
@@ -29,23 +33,24 @@ This covers the "I need a link, right now, that I control" case completely.
 Keep the current architecture and fix the rough edges:
 
 1. **Add Opus alongside MP3.** Roughly half the file size at the same
-   perceived quality, supported everywhere except very old Safari. The
-   `<audio>` element picks the first `<source>` it can play, so MP3 stays
-   the fallback:
+   perceived quality, supported everywhere except very old Safari:
    ```
-   ffmpeg -i master.wav -c:a libopus -b:a 128k audio/song.opus
-   ffmpeg -i master.wav -c:a libmp3lame -b:a 320k audio/song.mp3
+   ffmpeg -i master.wav -c:a libopus -b:a 128k public/audio/song.opus
+   ffmpeg -i master.wav -c:a libmp3lame -b:a 320k public/audio/song.mp3
    ```
-   There's a commented `<source>` slot for this in `index.html`.
-2. **Offer a real download.** A `download` attribute on a link to the MP3
-   is already in the markup. Add FLAC if you want to serve archivists.
+   This needs a small change: `Player.astro` sets `audio.src` directly, so
+   it would need to emit two `<source>` elements and let the browser pick.
+2. **Offer a download.** Not currently in the design. A link with the
+   `download` attribute next to each track would do it, and FLAC alongside
+   if you want to serve archivists.
 3. **Publish an RSS feed.** `feed.xml` with `<enclosure>` elements makes
    the site subscribable — podcast apps, feed readers, and (importantly)
-   it's the format most distribution tools ingest. There's a commented
-   `<link rel="alternate">` in `<head>` for it.
-4. **Custom player.** Replace the native `<audio>` controls with your own
-   UI when you do the design pass. Keep the `<audio>` element underneath;
-   it's the accessible fallback and does the actual decoding.
+   it's the format most distribution tools ingest. Astro has
+   `@astrojs/rss` for this; it reads the same content collection, so it
+   stays in sync with the releases automatically.
+4. **Custom player.** Already done — `src/components/Player.astro` wraps a
+   real `<audio>` element, which still does the decoding and remains the
+   accessible fallback.
 
 **Cost:** nothing. **Effort:** an afternoon. This is where I'd stop unless
 you hit a specific wall.
@@ -70,14 +75,17 @@ album.
 
 ## Option 3 — Object storage + CDN
 
-Move audio to Cloudflare R2 (or Backblaze B2) and keep HTML on Pages. Both
-have no egress fee to the open internet, unlike S3.
+Move audio to Cloudflare R2 (or Backblaze B2) and keep the site on Vercel.
+Both have no egress fee to the open internet, unlike S3. Only `src` in each
+track would change, so this is a find-and-replace across
+`src/content/releases/*.json`, not a rewrite.
 
-Only worth doing if you start hosting lossless files or long-form audio and
-want to keep large binaries out of git. Note that git is a genuinely bad
-place for audio — every version of every file lives in the repo forever.
-If `/audio` starts getting heavy, this is the fix, and it's also when
-`git-lfs` becomes worth considering.
+This is also the answer if Vercel's bandwidth allowance starts to bite.
+
+Worth doing if you start hosting lossless files or long-form audio. Note
+that git is a genuinely bad place for audio — every version of every file
+lives in the repo forever. If `public/audio` starts getting heavy, this is
+the fix, and it's also when `git-lfs` becomes worth considering.
 
 ## Option 4 — HLS adaptive streaming
 
@@ -116,15 +124,14 @@ Be clear-eyed about this, because it's the part that bites people:
   (DistroKid, TuneCore, CD Baby) regardless of what you host yourself.
 
 The sane posture: **self-host as the canonical home**, push to platforms
-for reach, and make every platform link point back here. The markup is
-already set up for that — `itemprop="sameAs"` on the per-release links
-tells search engines those are the same recording, and the canonical URL
-in `<head>` says this site is the original.
+for reach, and point every platform bio back here. Each page emits a
+canonical URL saying this site is the original.
 
 ## Recommendation
 
-1. Fill in the platform link and embed slots in `index.html` — that's the
-   immediate ask and it's just paste-the-URL.
-2. Add Opus sources and an RSS feed. Cheap, permanent wins.
-3. Revisit Faircamp when the catalog outgrows hand-editing.
-4. Skip HLS. Skip a VPS for the public site.
+1. Fill in real `outlets` URLs as releases go live. That's paste-the-URL.
+2. Add an RSS feed via `@astrojs/rss`. Cheap, permanent win.
+3. Move audio to R2 if the catalog or the traffic grows.
+4. Skip Faircamp now that this site exists — it solves the problem this
+   repo already solves, and you'd lose the design.
+5. Skip HLS. Skip a VPS for the public site.

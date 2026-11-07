@@ -1,0 +1,105 @@
+/* ============================================================
+   Design tokens — music.kevinhyde.com
+   Source: "Music Site" Design canvas, iteration #4
+   "Hanging dates, grid", via the build handoff spec.
+
+   NOTE ON CONTRAST
+   The spec's dash ramp (--dash-0..3) is reproduced here exactly.
+   Those are graphical marks, so they stay as designed.
+
+   The *text* ramp is a separate scale. The canvas values for
+   --muted-2 (#5f5a53, 2.84:1) and --faint (#3f3b37, 1.75:1) fail
+   WCAG AA as text on this background, and spec §9 asks for
+   Lighthouse a11y >= 95, which audits text contrast. The text
+   tokens below are lifted to the dimmest values that still clear
+   4.5:1 while preserving the same visual hierarchy. Original
+   canvas hexes are noted inline if you'd rather have the look.
+   ============================================================ */
+
+:root {
+  /* ---- Surface ---- */
+  --bg: #0e0d0c;              /* warm near-black */
+  --bg-raised: #151412;
+  --rule: #2a2724;
+  --rule-strong: #3f3b37;
+
+  /* ---- Text ramp (all >= 4.5:1 on --bg) ---- */
+  --text: #ece8e1;            /* 15.90:1 */
+  --text-2: #cfcac1;          /* 11.90:1 */
+  --text-3: #a8a297;          /*  7.66:1 */
+  --muted: #9b958a;           /*  6.53:1 */
+  --muted-2: #8b857b;         /*  5.31:1  (canvas: #5f5a53) */
+  --faint: #857f75;           /*  4.89:1  (canvas: #3f3b37) */
+
+  /* ---- Timeline dash ramp (graphical, exact canvas values) ---- */
+  --dash-0: #ece8e1;
+  --dash-1: #a8a297;
+  --dash-2: #5f5a53;
+  --dash-3: #3f3b37;
+
+  /* ---- Accent / focus ---- */
+  --focus: #ece8e1;
+
+  /* ---- Type ---- */
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-eyebrow: 0.6875rem;    /* 11px — mono, uppercase, 0.08em */
+  --fs-mono-sm: 0.75rem;      /* 12px */
+  --fs-label: 0.8125rem;      /* 13px — rail, same-year */
+  --fs-role: 0.875rem;        /* 14px */
+  --fs-artist: 0.9375rem;     /* 15px */
+  --fs-rail-active: 1rem;     /* 16px */
+  --fs-brand: 1.0625rem;      /* 17px */
+  --fs-detail-year: 1.25rem;  /* 20px */
+  --fs-title: 1.625rem;       /* 26px — index release title */
+  --fs-year: 1.75rem;         /* 28px — hanging date */
+  --fs-h1: 2.5rem;            /* 40px — detail title */
+
+  --tracking-tight: -0.02em;
+  --tracking-year: -0.03em;
+  --tracking-eyebrow: 0.08em;
+
+  /* ---- Layout ---- */
+  --page-max: 1240px;
+  --page-pad: 40px;
+  --rail-w: 200px;
+  --rail-pad-top: 124px;
+  --date-col: 112px;
+  --cover-basis: 380px;
+  --info-min: 220px;
+  --row-gap-y: 24px;
+  --row-gap-x: 32px;
+  --release-gap: 72px;
+  --header-gap: 64px;
+  --list-tail: 420px;         /* so the last release can reach the 40% line */
+  --tap: 44px;
+
+  /* ---- Motion ---- */
+  --dur: 300ms;
+  --ease: ease;
+
+  /* ---- Texture ---- */
+  --grain-opacity: 0.09;
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --rail-w: 120px;
+    --page-pad: 28px;
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --page-pad: 16px;
+    --release-gap: 48px;
+    --fs-h1: 2rem;
+    --fs-title: 1.375rem;
+    --list-tail: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur: 0ms; }
+}
