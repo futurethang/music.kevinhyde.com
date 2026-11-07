@@ -1,0 +1,41 @@
+{
+  "title": "Transom",
+  "artist": "Dismal Nitch",
+  "role": "Everything",
+  "date": "2024-09",
+  "format": "EP",
+  "cover": "/covers/transom.svg",
+  "coverAlt": "Narrow horizontal opening above a solid dark mass",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://example.bandcamp.com/album/transom"
+    }
+  ],
+  "selfHosted": {
+    "tracks": [
+      {
+        "title": "Transom",
+        "src": "/audio/transom.mp3",
+        "duration": "0:11"
+      },
+      {
+        "title": "Sill",
+        "src": "/audio/transom-sill.mp3",
+        "duration": "0:09"
+      },
+      {
+        "title": "Casement",
+        "src": "/audio/transom-casement.mp3",
+        "duration": "0:17"
+      }
+    ]
+  },
+  "myPart": "Three instrumentals recorded at the end of a long summer. Everything on here is me, including the mistakes.",
+  "credits": [
+    {
+      "role": "Written, performed, recorded by",
+      "name": "Kevin Hyde"
+    }
+  ]
+}

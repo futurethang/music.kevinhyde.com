@@ -1,0 +1,67 @@
+---
+import { platformName } from '../lib/releases';
+
+interface Props {
+  outlets: { platform: string; url: string; label?: string }[];
+  /** Detail page shows a mono hint ("buy / download", "stream") per row. */
+  hints?: boolean;
+  /** Shown instead when there are no outlets (index only). */
+  playHereHref?: string;
+  rowHeight?: 44 | 48;
+}
+const { outlets, hints = false, playHereHref, rowHeight = 44 } = Astro.props;
+import { PLATFORM_HINTS } from '../lib/releases';
+---
+<ul class="outlets" style={`--row-h:${rowHeight}px`}>
+  {outlets.map((o) => (
+    <li class="outlets__item">
+      <a class="outlets__link" href={o.url} target="_blank" rel="noopener">
+        <span class="outlets__name">{platformName(o)}</span>
+        {hints && PLATFORM_HINTS[o.platform] && (
+          <span class="outlets__hint">{PLATFORM_HINTS[o.platform]}</span>
+        )}
+        <span class="outlets__arrow" aria-hidden="true">&rarr;</span>
+        <span class="visually-hidden">(opens in a new tab)</span>
+      </a>
+    </li>
+  ))}
+
+  {outlets.length === 0 && playHereHref && (
+    <li class="outlets__item">
+      <a class="outlets__link" href={playHereHref}>
+        <span class="outlets__name">Play here</span>
+        <span class="outlets__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </li>
+  )}
+</ul>
+
+<style>
+  .outlets { list-style: none; padding: 0; margin: 20px 0 0; }
+  .outlets__item { border-top: 1px solid var(--rule); }
+  .outlets__item:last-child { border-bottom: 1px solid var(--rule); }
+
+  .outlets__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: var(--row-h);
+    color: var(--text-3);
+    transition: color var(--dur) var(--ease);
+  }
+  .outlets__link:hover { color: var(--text); }
+
+  .outlets__name { font-size: var(--fs-role); }
+
+  .outlets__hint {
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    color: var(--muted-2);
+  }
+
+  .outlets__arrow {
+    margin-left: auto;
+    transition: transform var(--dur) var(--ease);
+  }
+  .outlets__link:hover .outlets__arrow { transform: translateX(3px); }
+</style>

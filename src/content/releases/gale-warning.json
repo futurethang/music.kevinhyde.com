@@ -1,0 +1,18 @@
+{
+  "title": "Gale Warning",
+  "artist": "The Vane",
+  "role": "Bass, engineering",
+  "date": "2023-06",
+  "format": "LP",
+  "cover": "/covers/gale-warning.svg",
+  "coverAlt": "Diagonal slash of light across a charcoal field",
+  "outlets": [
+    { "platform": "bandcamp", "url": "https://example.bandcamp.com/album/gale-warning" },
+    { "platform": "spotify", "url": "https://open.spotify.com/album/0000000000galewarning" }
+  ],
+  "myPart": "Played bass and ran the room. Recorded in a rented hall with terrible heating and a very good piano.",
+  "credits": [
+    { "role": "Bass, engineer", "name": "Kevin Hyde" },
+    { "role": "The Vane", "name": "Juno Aldridge, Pike Soriano" }
+  ]
+}

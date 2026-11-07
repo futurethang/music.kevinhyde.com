@@ -1,0 +1,338 @@
+---
+import { year, type Release } from '../lib/releases';
+
+interface Props { releases: Release[] }
+const { releases } = Astro.props;
+
+// A tick shows its year label only if it is the first release of that
+// year, or it is the active tick (handled at runtime).
+const seen = new Set<string>();
+const ticks = releases.map((r, i) => {
+  const y = year(r.data.date);
+  const firstOfYear = !seen.has(y);
+  seen.add(y);
+  return { i, y, firstOfYear, slug: r.id, title: r.data.title };
+});
+
+const earliest = ticks.length ? ticks[ticks.length - 1].y : '';
+---
+<nav class="rail" aria-label="Timeline" data-rail>
+  <div class="rail__inner" data-rail-scroll>
+    <p class="rail__cap" aria-hidden="true">now</p>
+
+    <ul class="rail__ticks">
+      {ticks.map((t) => (
+        <li>
+          <button
+            type="button"
+            class="tick"
+            data-tick
+            data-i={t.i}
+            data-slug={t.slug}
+            data-year={t.y}
+            data-first-of-year={t.firstOfYear ? 'true' : 'false'}
+            aria-label={`Jump to ${t.title}, ${t.y}`}
+          >
+            <span class="tick__slot" aria-hidden="true"><span class="tick__dash"></span></span>
+            <span class="tick__labels" aria-hidden="true">
+              <span class="tick__year">{t.y}</span>
+              <span class="tick__title">{t.title}</span>
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+
+    <p class="rail__cap" aria-hidden="true">{earliest}</p>
+  </div>
+</nav>
+
+<style>
+  .rail {
+    flex: 0 0 var(--rail-w);
+    width: var(--rail-w);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    padding-top: var(--rail-pad-top);
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rail__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .rail__inner::-webkit-scrollbar { display: none; }
+
+  .rail__cap {
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    color: var(--faint);
+    padding-left: 0;
+    flex: none;
+  }
+
+  .rail__ticks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: none;
+  }
+
+  .tick {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    padding: 5px 0;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  /* Fixed 48px slot keeps every label on the same left edge while the
+     dash itself grows and shrinks inside it. */
+  .tick__slot {
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    height: 1.1em;
+  }
+
+  .tick__dash {
+    display: block;
+    width: 14px;
+    height: 1px;
+    background: var(--dash-3);
+    transition:
+      width var(--dur) var(--ease),
+      height var(--dur) var(--ease),
+      background-color var(--dur) var(--ease);
+  }
+
+  .tick[data-d='0'] .tick__dash { width: 48px; height: 3px; background: var(--dash-0); }
+  .tick[data-d='1'] .tick__dash { width: 32px; height: 2px; background: var(--dash-1); }
+  .tick[data-d='2'] .tick__dash { width: 22px; height: 1px; background: var(--dash-2); }
+  .tick[data-d='3'] .tick__dash { width: 14px; height: 1px; background: var(--dash-3); }
+
+  .tick__labels { min-width: 0; display: block; }
+
+  .tick__year {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    font-weight: 400;
+    color: var(--faint);
+    line-height: 1.1;
+    transition: color var(--dur) var(--ease), font-size var(--dur) var(--ease);
+  }
+
+  /* Year label only renders for the first release of a year, or the active tick. */
+  .tick[data-first-of-year='false']:not([data-active]) .tick__year { visibility: hidden; }
+
+  /* Same year as active, but not the active tick. */
+  .tick[data-sameyear]:not([data-active]) .tick__year {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--fs-label);
+    color: var(--text-3);
+  }
+
+  .tick[data-active] .tick__year {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--fs-rail-active);
+    color: var(--text);
+  }
+
+  .tick__title {
+    display: none;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--fs-mono-sm);
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .tick[data-active] .tick__title { display: block; }
+
+  .tick:hover .tick__dash { background: var(--text); }
+  .tick:hover .tick__year { color: var(--text); }
+
+  /* Spec §6: 640–1023px — narrower rail, no active-title line. */
+  @media (max-width: 1023px) {
+    .tick[data-active] .tick__title { display: none; }
+    .tick__slot { flex-basis: 40px; }
+    .tick[data-d='0'] .tick__dash { width: 40px; }
+  }
+
+  /* Spec §6: below 640px the rail is hidden entirely. */
+  @media (max-width: 639px) {
+    .rail { display: none; }
+  }
+</style>
+
+<script>
+  const ACTIVATION = 0.4; // spec §4: 40% of viewport height
+
+  const rail = document.querySelector<HTMLElement>('[data-rail]');
+  const railScroll = document.querySelector<HTMLElement>('[data-rail-scroll]');
+  const ticks = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-tick]'));
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-release]'));
+
+  // Mobile year bar (<640px) shares this component's active index.
+  const yearBarLabel = document.querySelector<HTMLElement>('[data-yearbar-label]');
+  const yearSelect = document.querySelector<HTMLSelectElement>('[data-yearbar-select]');
+
+  if (ticks.length && rows.length) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let active = -1;
+    let frame = 0;
+    // While a programmatic scroll is in flight, don't let the scroll
+    // handler fight the destination we just committed to. A fixed timeout
+    // isn't enough — a jump across a long catalogue outlasts it and the
+    // label flickers on the way past. Prefer `scrollend`, with a timeout
+    // as the fallback and as a safety net if it never fires.
+    let locked = false;
+    let unlockTimer = 0;
+    let onScrollEnd = null;
+
+    function computeActive(): number {
+      const line = window.innerHeight * ACTIVATION;
+      let found = 0;
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i].getBoundingClientRect().top <= line) found = i;
+      }
+      // Spec §4: at the bottom of the page the last release is forced active.
+      const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
+      return atBottom ? rows.length - 1 : found;
+    }
+
+    function setActive(next: number): void {
+      if (next === active) return;
+      active = next;
+      const activeYear = ticks[next]?.dataset.year;
+
+      for (let i = 0; i < ticks.length; i++) {
+        const t = ticks[i];
+        const d = Math.min(Math.abs(i - next), 3);
+        t.dataset.d = String(d);
+
+        if (i === next) {
+          t.dataset.active = 'true';
+          t.setAttribute('aria-current', 'true');
+        } else {
+          delete t.dataset.active;
+          t.removeAttribute('aria-current');
+        }
+
+        if (i !== next && t.dataset.year === activeYear) {
+          t.dataset.sameyear = 'true';
+        } else {
+          delete t.dataset.sameyear;
+        }
+      }
+
+      if (yearBarLabel && activeYear) yearBarLabel.textContent = activeYear;
+      if (yearSelect && activeYear && yearSelect.value !== activeYear) {
+        yearSelect.value = activeYear;
+      }
+
+      keepTickInView(ticks[next]);
+    }
+
+    // Spec §4: if the rail is taller than the viewport it scrolls on its
+    // own and keeps the active tick in view.
+    function keepTickInView(tick?: HTMLButtonElement): void {
+      if (!tick || !railScroll) return;
+      if (railScroll.scrollHeight <= railScroll.clientHeight + 1) return;
+      const r = tick.getBoundingClientRect();
+      const c = railScroll.getBoundingClientRect();
+      if (r.top < c.top || r.bottom > c.bottom) {
+        tick.scrollIntoView({
+          block: 'nearest',
+          behavior: reduced.matches ? 'auto' : 'smooth',
+        });
+      }
+    }
+
+    function unlock(resync: boolean): void {
+      if (!locked) return;
+      locked = false;
+      clearTimeout(unlockTimer);
+      if (onScrollEnd) {
+        window.removeEventListener('scrollend', onScrollEnd);
+        onScrollEnd = null;
+      }
+      if (resync) setActive(computeActive());
+    }
+
+    function lockForScroll(ms: number): void {
+      unlock(false);
+      locked = true;
+      if ('onscrollend' in window) {
+        onScrollEnd = () => unlock(true);
+        window.addEventListener('scrollend', onScrollEnd);
+      }
+      // Fallback for browsers without scrollend, and a safety net in case
+      // the scroll never actually moves (already at the destination).
+      unlockTimer = window.setTimeout(() => unlock(true), ms);
+    }
+
+    function onScroll(): void {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        if (locked) return;
+        setActive(computeActive());
+      });
+    }
+
+    function jumpTo(i: number): void {
+      const row = rows[i];
+      if (!row) return;
+      setActive(i);
+      lockForScroll(reduced.matches ? 50 : 1500);
+      row.scrollIntoView({
+        block: 'start',
+        behavior: reduced.matches ? 'auto' : 'smooth',
+      });
+      history.replaceState(null, '', `#${row.id}`);
+    }
+
+    ticks.forEach((t, i) => t.addEventListener('click', () => jumpTo(i)));
+
+    if (yearSelect) {
+      yearSelect.addEventListener('change', () => {
+        const i = rows.findIndex((r) => r.dataset.year === yearSelect.value);
+        if (i >= 0) jumpTo(i);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Spec §4: /#slug lands on that release with it active.
+    const hash = decodeURIComponent(location.hash.slice(1));
+    const deep = hash ? rows.findIndex((r) => r.id === hash) : -1;
+    if (deep >= 0) {
+      setActive(deep);
+      // The browser handles the scroll itself via scroll-margin-top;
+      // just hold off the observer until it settles.
+      lockForScroll(400);
+    } else {
+      setActive(computeActive());
+    }
+  }
+</script>
