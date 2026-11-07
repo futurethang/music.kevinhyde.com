@@ -1,2 +1,2 @@
-# This directory holds audio files.
-# Add your MP3 here: floating-apart.mp3
+# Audio files live here: <slug>.mp3 (320kbps), optionally <slug>.opus.
+# See docs/adding-a-release.md.

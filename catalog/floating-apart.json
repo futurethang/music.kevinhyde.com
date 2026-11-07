@@ -19,11 +19,26 @@
   },
   "files": {
     "audio": {
-      "mp3_320": "audio/floating-apart.mp3"
+      "mp3_320": "audio/floating-apart.mp3",
+      "opus": null,
+      "flac": null
     },
     "artwork": {
-      "placeholder": "artwork/floating-apart-placeholder.svg"
+      "placeholder": "artwork/floating-apart-placeholder.svg",
+      "cover": null
     }
+  },
+  "links": {
+    "bandcamp": null,
+    "spotify": null,
+    "soundcloud": null,
+    "apple_music": null,
+    "youtube": null
+  },
+  "embeds": {
+    "bandcamp": null,
+    "spotify": null,
+    "soundcloud": null
   },
   "description": "",
   "tags": [],

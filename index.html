@@ -1,67 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Hyde Music</title>
-  <meta name="description" content="Music by Kevin Hyde. Independent releases from Dismal Nitch, Seattle.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Kevin Hyde Music">
+  <title>Kevin Hyde — Music</title>
+  <meta name="description" content="Music by Kevin Hyde. Independent releases recorded at Dismal Nitch, Seattle. Stream here or on your platform of choice.">
+  <link rel="canonical" href="https://music.kevinhyde.com/">
+
+  <!-- Open Graph / social cards -->
+  <meta property="og:site_name" content="Kevin Hyde Music">
+  <meta property="og:title" content="Kevin Hyde — Music">
   <meta property="og:description" content="Independent music releases from Seattle.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://music.kevinhide.com">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://music.kevinhyde.com/">
+  <!-- SLOT: 1200x630 share image -->
+  <!-- <meta property="og:image" content="https://music.kevinhyde.com/artwork/og-default.jpg"> -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- SLOT: favicon / touch icon -->
+  <!-- <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
+
+  <!-- Feed for release announcements (see docs/self-hosting.md) -->
+  <!-- <link rel="alternate" type="application/rss+xml" title="Kevin Hyde — Releases" href="/feed.xml"> -->
 
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main>
-    <header class="site-header">
-      <h1>Kevin Hyde</h1>
-    </header>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <section class="tracks">
-      <article class="track" id="floating-apart">
-        <div class="track-artwork">
-          <img src="artwork/floating-apart-placeholder.svg" alt="Floating Apart" class="artwork">
-        </div>
+  <header class="site-header">
+    <p class="site-brand"><a href="/" rel="home">Kevin Hyde</a></p>
+    <p class="site-tagline">Songs recorded at Dismal Nitch, Seattle.</p>
 
-        <div class="track-info">
-          <h2 class="track-title">Floating Apart</h2>
-          <p class="track-meta">2025 · 3:42</p>
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#releases">Releases</a></li>
+        <li><a href="#listen">Listen elsewhere</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
-          <div class="track-player">
-            <audio controls preload="metadata" id="audio-floating-apart">
-              <source src="audio/floating-apart.mp3" type="audio/mpeg">
-              Your browser doesn't support audio playback.
+  <main id="main">
+    <h1 class="visually-hidden">Music by Kevin Hyde</h1>
+
+    <!-- ==========================================================
+         RELEASES
+         Newest first. To add one, copy the <li> block from the
+         <template id="release-template"> at the bottom of this file.
+         ========================================================== -->
+    <section id="releases" aria-labelledby="releases-heading">
+      <h2 id="releases-heading">Releases</h2>
+
+      <ol class="release-list" reversed>
+        <li>
+          <article class="release" id="floating-apart" itemscope itemtype="https://schema.org/MusicRecording">
+            <meta itemprop="byArtist" content="Kevin Hyde">
+
+            <figure class="release__artwork">
+              <img src="artwork/floating-apart-placeholder.svg"
+                   alt="Cover art for “Floating Apart” by Kevin Hyde"
+                   width="1400" height="1400"
+                   loading="lazy" decoding="async"
+                   itemprop="image">
+              <figcaption class="visually-hidden">Cover art for “Floating Apart”</figcaption>
+            </figure>
+
+            <div class="release__body">
+              <header class="release__header">
+                <h3 class="release__title">
+                  <a href="#floating-apart" itemprop="url">
+                    <span itemprop="name">Floating Apart</span>
+                  </a>
+                </h3>
+                <p class="release__meta">
+                  <span class="release__type">Single</span>
+                  <time itemprop="datePublished" datetime="2025-12-19">December 19, 2025</time>
+                  <span class="release__duration">
+                    <meta itemprop="duration" content="PT3M42S">3:42
+                  </span>
+                </p>
+              </header>
+
+              <!-- Self-hosted stream. Primary listening experience. -->
+              <div class="release__player">
+                <audio controls preload="metadata" itemprop="audio"
+                       aria-label="Play “Floating Apart”">
+                  <source src="audio/floating-apart.mp3" type="audio/mpeg">
+                  <!-- SLOT: add <source src="audio/floating-apart.opus" type="audio/ogg; codecs=opus"> above the mp3 for smaller files -->
+                  <p>Your browser can’t play this file.
+                     <a href="audio/floating-apart.mp3" download>Download the MP3</a> instead.</p>
+                </audio>
+              </div>
+
+              <!-- ========= SLOT: platform links =========
+                   Uncomment a line and paste the release URL.
+                   itemprop="sameAs" tells search engines these are
+                   the same recording on other services. -->
+              <nav class="listen-links" aria-labelledby="listen-floating-apart">
+                <h4 class="listen-links__heading" id="listen-floating-apart">Listen on</h4>
+                <ul>
+                  <!-- <li><a class="listen-links__link" data-platform="bandcamp"   href="" itemprop="sameAs" rel="me noopener">Bandcamp</a></li> -->
+                  <!-- <li><a class="listen-links__link" data-platform="spotify"    href="" itemprop="sameAs" rel="me noopener">Spotify</a></li> -->
+                  <!-- <li><a class="listen-links__link" data-platform="soundcloud" href="" itemprop="sameAs" rel="me noopener">SoundCloud</a></li> -->
+                  <!-- <li><a class="listen-links__link" data-platform="apple"      href="" itemprop="sameAs" rel="me noopener">Apple Music</a></li> -->
+                  <!-- <li><a class="listen-links__link" data-platform="youtube"    href="" itemprop="sameAs" rel="me noopener">YouTube</a></li> -->
+                  <li class="listen-links__empty">Platform links coming soon.</li>
+                </ul>
+              </nav>
+
+              <!-- ========= SLOT: platform embed =========
+                   Collapsed by default so third-party iframes don't
+                   load (or track) until someone opens it. Paste one
+                   embed <iframe> inside. -->
+              <details class="release__embed">
+                <summary>Player embeds</summary>
+                <div class="embed-frame">
+                  <!-- Bandcamp:   <iframe title="Floating Apart on Bandcamp"   src="https://bandcamp.com/EmbeddedPlayer/track=…" loading="lazy" seamless></iframe> -->
+                  <!-- Spotify:    <iframe title="Floating Apart on Spotify"    src="https://open.spotify.com/embed/track/…" loading="lazy" allow="encrypted-media"></iframe> -->
+                  <!-- SoundCloud: <iframe title="Floating Apart on SoundCloud" src="https://w.soundcloud.com/player/?url=…" loading="lazy"></iframe> -->
+                  <p class="embed-frame__empty">No embeds added yet.</p>
+                </div>
+              </details>
+
+              <details class="release__about">
+                <summary>About this song</summary>
+                <!-- SLOT: liner notes -->
+                <p class="release__notes" itemprop="description">
+                  More details coming soon.
+                </p>
+                <dl class="release__credits">
+                  <dt>Written, performed &amp; produced by</dt>
+                  <dd>Kevin Hyde</dd>
+                  <dt>Recorded at</dt>
+                  <dd>Dismal Nitch, Seattle</dd>
+                  <dt>Released</dt>
+                  <dd><time datetime="2025-12">December 2025</time></dd>
+                </dl>
+              </details>
+
+              <footer class="release__footer">
+                <!-- SLOT: downloads, tip jar, lyrics link -->
+                <ul class="release__actions">
+                  <li><a href="audio/floating-apart.mp3" download>Download MP3</a></li>
+                  <!-- <li><a href="audio/floating-apart.flac" download>Download FLAC</a></li> -->
+                  <!-- <li><a href="">Tip jar</a></li> -->
+                </ul>
+              </footer>
+            </div>
+          </article>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ==========================================================
+         LISTEN ELSEWHERE — artist-level profiles, not per release.
+         This is the block to point at from a bio, press kit, or
+         "links" post on any outlet.
+         ========================================================== -->
+    <section id="listen" aria-labelledby="listen-heading">
+      <h2 id="listen-heading">Listen elsewhere</h2>
+      <p>Everything here is also on these services.</p>
+
+      <ul class="platform-list">
+        <!-- SLOT: artist profile URLs -->
+        <!-- <li class="platform" data-platform="bandcamp">
+               <a href="" rel="me noopener"><span class="platform__name">Bandcamp</span>
+               <span class="platform__note">Buy &amp; download</span></a></li> -->
+        <!-- <li class="platform" data-platform="spotify">
+               <a href="" rel="me noopener"><span class="platform__name">Spotify</span>
+               <span class="platform__note">Stream</span></a></li> -->
+        <!-- <li class="platform" data-platform="soundcloud">
+               <a href="" rel="me noopener"><span class="platform__name">SoundCloud</span>
+               <span class="platform__note">Stream &amp; demos</span></a></li> -->
+        <li class="platform platform--empty">Profile links coming soon.</li>
+      </ul>
+    </section>
+
+    <section id="about" aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <!-- SLOT: bio -->
+      <p>Kevin Hyde writes and records music at Dismal Nitch in Seattle.</p>
+      <p><a href="mailto:kphyde@gmail.com">Get in touch</a> about shows, licensing, or anything else.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="copyright">© 2025 Kevin Hyde. All rights reserved.</p>
+    <nav class="footer-nav" aria-label="Elsewhere">
+      <ul>
+        <li><a href="mailto:kphyde@gmail.com">Email</a></li>
+        <!-- SLOT: social / newsletter links -->
+      </ul>
+    </nav>
+  </footer>
+
+  <!-- ============================================================
+       RELEASE TEMPLATE
+       Copy the <li>…</li> below into the top of .release-list and
+       replace every SLUG / TITLE placeholder. Nothing inside a
+       <template> renders or loads, so it costs nothing to keep here.
+       ============================================================ -->
+  <template id="release-template">
+    <li>
+      <article class="release" id="SLUG" itemscope itemtype="https://schema.org/MusicRecording">
+        <meta itemprop="byArtist" content="Kevin Hyde">
+
+        <figure class="release__artwork">
+          <img src="artwork/SLUG.jpg" alt="Cover art for “TITLE” by Kevin Hyde"
+               width="1400" height="1400" loading="lazy" decoding="async" itemprop="image">
+          <figcaption class="visually-hidden">Cover art for “TITLE”</figcaption>
+        </figure>
+
+        <div class="release__body">
+          <header class="release__header">
+            <h3 class="release__title">
+              <a href="#SLUG" itemprop="url"><span itemprop="name">TITLE</span></a>
+            </h3>
+            <p class="release__meta">
+              <span class="release__type">Single</span>
+              <time itemprop="datePublished" datetime="YYYY-MM-DD">MONTH DD, YYYY</time>
+              <span class="release__duration"><meta itemprop="duration" content="PT0M00S">0:00</span>
+            </p>
+          </header>
+
+          <div class="release__player">
+            <audio controls preload="metadata" itemprop="audio" aria-label="Play “TITLE”">
+              <source src="audio/SLUG.mp3" type="audio/mpeg">
+              <p>Your browser can’t play this file.
+                 <a href="audio/SLUG.mp3" download>Download the MP3</a> instead.</p>
             </audio>
           </div>
 
-          <details class="track-details">
-            <summary>About this song</summary>
-            <p class="track-notes">
-              <!-- Kevin will update this -->
-              More details coming soon.
-            </p>
-            <p class="track-credits">
-              Written, performed, and produced by Kevin Hyde<br>
-              Recorded at Dismal Nitch, Seattle<br>
-              December 2025
-            </p>
+          <nav class="listen-links" aria-labelledby="listen-SLUG">
+            <h4 class="listen-links__heading" id="listen-SLUG">Listen on</h4>
+            <ul>
+              <li><a class="listen-links__link" data-platform="bandcamp"   href="" itemprop="sameAs" rel="me noopener">Bandcamp</a></li>
+              <li><a class="listen-links__link" data-platform="spotify"    href="" itemprop="sameAs" rel="me noopener">Spotify</a></li>
+              <li><a class="listen-links__link" data-platform="soundcloud" href="" itemprop="sameAs" rel="me noopener">SoundCloud</a></li>
+            </ul>
+          </nav>
+
+          <details class="release__embed">
+            <summary>Player embeds</summary>
+            <div class="embed-frame">
+              <p class="embed-frame__empty">No embeds added yet.</p>
+            </div>
           </details>
+
+          <details class="release__about">
+            <summary>About this song</summary>
+            <p class="release__notes" itemprop="description">LINER NOTES</p>
+            <dl class="release__credits">
+              <dt>Written, performed &amp; produced by</dt>
+              <dd>Kevin Hyde</dd>
+              <dt>Recorded at</dt>
+              <dd>Dismal Nitch, Seattle</dd>
+              <dt>Released</dt>
+              <dd><time datetime="YYYY-MM">MONTH YYYY</time></dd>
+            </dl>
+          </details>
+
+          <footer class="release__footer">
+            <ul class="release__actions">
+              <li><a href="audio/SLUG.mp3" download>Download MP3</a></li>
+            </ul>
+          </footer>
         </div>
       </article>
-    </section>
-
-    <!-- Future: More tracks will be added above this line, newest first -->
-
-    <footer class="site-footer">
-      <p class="copyright">© 2025 Kevin Hyde. All rights reserved.</p>
-      <p class="contact">
-        <a href="mailto:kphyde@gmail.com">Get in touch</a>
-        <!-- Future: Add tip jar link here -->
-      </p>
-    </footer>
-  </main>
+    </li>
+  </template>
 </body>
 </html>
