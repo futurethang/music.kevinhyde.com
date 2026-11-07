@@ -7,7 +7,8 @@
  *
  * Requires playwright on the machine (`npm i -D playwright` or a global
  * install). It is deliberately NOT a dependency of this project so that
- * Vercel's build stays to two packages and doesn't download browsers.
+ * the deploy workflow's `npm ci` stays to two packages and doesn't
+ * download browsers.
  */
 import { spawn } from 'node:child_process';
 import { readdirSync } from 'node:fs';

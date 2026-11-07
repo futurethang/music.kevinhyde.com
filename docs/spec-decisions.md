@@ -32,15 +32,23 @@ Result is accessibility 100. The original hexes are in a comment in
 `tokens.css` if you'd rather have the canvas look and drop the §9 target —
 it's a one-line revert, but it's a real tradeoff, not an oversight.
 
-## 2. No adapter, no `@astrojs/vercel`
+## 2. GitHub Pages, not Vercel — and no adapter either way
 
-§1 suggested Astro on Vercel. The Vercel adapter is only needed for SSR or
-ISR; this site is fully static. Installing it pulled six transitive
-advisories (`@vercel/nft`, `path-to-regexp`) into a build that doesn't use
-any of its features. Dropped it — Vercel's Astro preset builds and serves
-`dist/` natively. Dependency count is two, advisories zero.
+§1 suggested Astro on Vercel, and that was the plan until we checked what
+was actually serving the live domain: a `github-pages` deployment from the
+default branch, dating to 2025-12-22. The old README's claim of "Cloudflare
+Pages on `main`" was wrong on both counts — there has never been a `main`
+branch in this repo.
 
-Add it back the day this site needs a server.
+Staying on Pages means no DNS change and no downtime, so that's what
+`.github/workflows/deploy.yml` does: `npm ci`, `astro build`, publish
+`dist/`. Moving to Vercel later is a separate, deliberate change that
+includes repointing DNS.
+
+Either way the site is fully static and needs no Astro adapter. For the
+record, `@astrojs/vercel` was tried and dropped: it pulled six transitive
+advisories (`@vercel/nft`, `path-to-regexp`) into a build using none of
+its features. Dependency count is two, advisories zero.
 
 ## 3. Self-hosted fonts
 
@@ -98,8 +106,17 @@ current year left, "Jump to…" `<select>` right — and wired to the same
 active-index computation the rail uses, so the two can't disagree. Worth
 replacing with a real design before launch.
 
-## 10. Removed `CNAME`
+## 10. `CNAME` lives in `public/`, not the repo root
 
-A GitHub Pages artifact, and the old README said Cloudflare Pages. On
-Vercel the domain is configured in the dashboard. Restore with
-`echo music.kevinhyde.com > CNAME` if any other host still needs it.
+Initially deleted as a stale GitHub Pages artifact. That was wrong: Pages
+is what serves the live domain, and `CNAME` is what binds it. Removing it
+would have unbound `music.kevinhyde.com`.
+
+It's restored at `public/CNAME` rather than the repo root, which matters.
+Actions-based Pages publishes **only the uploaded artifact**, so a `CNAME`
+sitting at the repo root never reaches the served site. Astro copies
+`public/` verbatim into `dist/`, so the file lands at `dist/CNAME` and gets
+published. Verified in the build output.
+
+Keep `public/CNAME` and `site` in `astro.config.mjs` in sync if the domain
+ever changes.

@@ -12,8 +12,8 @@ npm run preview &
 npm test
 ```
 
-Playwright is kept out of `package.json` so Vercel's build stays at two
-packages and doesn't download browsers on every deploy.
+Playwright is kept out of `package.json` so the deploy workflow's `npm ci`
+stays at two packages and doesn't download browsers on every deploy.
 
 ## What's covered
 

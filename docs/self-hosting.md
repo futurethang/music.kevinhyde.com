@@ -9,16 +9,25 @@ to push it, and where the real limits are.
 
 ## What you have now
 
-A statically generated Astro site on Vercel. Audio in `public/audio`, a
-custom player on each release page, one JSON file per release. No server,
-no database, no CMS.
+A statically generated Astro site published to GitHub Pages by a workflow.
+Audio in `public/audio`, a custom player on each release page, one JSON
+file per release. No server, no database, no CMS.
 
 - **Works today.** `npm run new`, drop in two files, push.
-- **Watch the bandwidth.** This is the one place Vercel differs from
-  Cloudflare Pages: the Hobby plan includes a fixed amount of transfer per
-  month and audio is the heaviest thing you serve. A 3.5 MB MP3 streamed
-  10,000 times is ~35 GB. Check your current plan's allowance before a
-  release you expect to travel, and see Option 3 if it gets close.
+- **Two limits worth knowing**, because audio is the heaviest thing you
+  serve and GitHub Pages is the tightest host you could pick for it:
+
+  | Limit | Value | What it means here |
+  | --- | --- | --- |
+  | Published site size | **1 GB, hard** | ~300 songs at 3.5 MB. The build fails past it. |
+  | Bandwidth | **100 GB/month, soft** | ~28,000 plays of a 3.5 MB MP3. GitHub may throttle or email you. |
+
+  Neither bites at a twelve-release catalogue. Both bite eventually, and
+  the site-size one is hard rather than soft. Option 3 is the fix, and
+  it's worth doing *before* you hit the wall rather than after.
+- **Pages isn't meant for commercial use.** GitHub's terms ask you not to
+  run a business off it. A personal discography with a tip jar is fine; a
+  storefront isn't.
 - **Full-file download.** The browser pulls the whole MP3 to seek around
   in it. At song length that's a non-issue; at album length it's wasteful
   on mobile data.
@@ -75,12 +84,15 @@ album.
 
 ## Option 3 — Object storage + CDN
 
-Move audio to Cloudflare R2 (or Backblaze B2) and keep the site on Vercel.
+Move audio to Cloudflare R2 (or Backblaze B2) and keep the HTML on Pages.
 Both have no egress fee to the open internet, unlike S3. Only `src` in each
 track would change, so this is a find-and-replace across
 `src/content/releases/*.json`, not a rewrite.
 
-This is also the answer if Vercel's bandwidth allowance starts to bite.
+This is the answer to both Pages limits above: audio stops counting against
+the 1 GB site size and the 100 GB bandwidth, and the part of the site that
+stays on Pages is a few hundred KB of HTML and fonts. Do this when the
+catalogue gets real, not when it breaks.
 
 Worth doing if you start hosting lossless files or long-form audio. Note
 that git is a genuinely bad place for audio — every version of every file

@@ -11,14 +11,15 @@ on a warm near-black ground with a faint film grain.
 
 ## Stack
 
-Astro 7, statically generated, deployed on Vercel. Two dependencies
-(`astro`, `sharp`), zero npm advisories. No CMS, no database, no adapter —
-Vercel detects Astro, runs `astro build`, and serves `dist/`.
+Astro 7, statically generated, published to GitHub Pages by
+`.github/workflows/deploy.yml`. Two dependencies (`astro`, `sharp`), zero
+npm advisories. No CMS, no database, no adapter — the build is plain
+static files.
 
 ```bash
 npm install
 npm run dev        # localhost:4321
-npm run build      # same build Vercel runs
+npm run build      # same build the deploy workflow runs
 npm run preview
 ```
 
@@ -89,6 +90,19 @@ The spec left a few things open or self-conflicting. See
 **[docs/spec-decisions.md](docs/spec-decisions.md)** for the list and the
 reasoning — the contrast one in particular is worth a look, since it
 changes two token values from the canvas.
+
+## Deployment
+
+Pushing to the default branch runs `.github/workflows/deploy.yml`:
+`npm ci`, `astro build`, publish `dist/` to GitHub Pages.
+
+The custom domain is bound by `public/CNAME`, which Astro copies into
+`dist/`. A `CNAME` at the repo root would *not* work — Actions-based Pages
+publishes only the build artifact.
+
+**One-time repo setting:** Settings → Pages → Build and deployment →
+Source must be **GitHub Actions**, not "Deploy from a branch". Until that
+is switched the deploy step fails.
 
 ## Still open (spec §10)
 

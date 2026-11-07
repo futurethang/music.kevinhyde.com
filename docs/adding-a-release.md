@@ -17,7 +17,7 @@ public/audio/floating-apart.mp3      320kbps
 ```
 
 Then open the JSON, write a sentence or two in `myPart`, and commit.
-Vercel builds and deploys on push.
+Pushing to the default branch builds and deploys to GitHub Pages.
 
 ## Options
 
@@ -116,5 +116,5 @@ without a restart.
 npm run build
 ```
 
-This is the same build Vercel runs. If a release is malformed, it fails
-here with the file path and the reason.
+This is the same build the deploy workflow runs. If a release is
+malformed, it fails here with the file path and the reason.
