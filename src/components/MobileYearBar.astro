@@ -1,0 +1,67 @@
+---
+import { year, type Release } from '../lib/releases';
+
+interface Props { releases: Release[] }
+const { releases } = Astro.props;
+
+const years: string[] = [];
+for (const r of releases) {
+  const y = year(r.data.date);
+  if (!years.includes(y)) years.push(y);
+}
+const first = years[0] ?? '';
+---
+{/*
+  Spec §6: this mobile pattern is the agent's best guess, not part of the
+  canvas design. Deliberately minimal — a sticky 44px bar with the current
+  year and a jump-to select. Shown below 640px only.
+*/}
+<div class="yearbar">
+  <span class="yearbar__year" data-yearbar-label>{first}</span>
+  <label class="yearbar__jump">
+    <span class="visually-hidden">Jump to year</span>
+    <select data-yearbar-select>
+      {years.map((y) => <option value={y}>{y}</option>)}
+    </select>
+  </label>
+</div>
+
+<style>
+  .yearbar {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    height: var(--tap);
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 20px;
+  }
+
+  .yearbar__year {
+    font-weight: 700;
+    font-size: var(--fs-detail-year);
+    letter-spacing: var(--tracking-year);
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .yearbar__jump select {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-sm);
+    color: var(--muted);
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 6px 8px;
+    min-height: 32px;
+  }
+
+  @media (max-width: 639px) {
+    .yearbar { display: flex; }
+  }
+</style>

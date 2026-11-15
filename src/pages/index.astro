@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import ReleaseRow from '../components/ReleaseRow.astro';
+import TimelineRail from '../components/TimelineRail.astro';
+import MobileYearBar from '../components/MobileYearBar.astro';
+import { allReleases } from '../lib/releases';
+
+const releases = await allReleases();
+---
+<Base title="Kevin Hyde — recordings" current="index">
+  {/* Spec §2: no intro text on the index. Kevin removed it on purpose.
+      The h1 is visually hidden so the page still has one for screen
+      readers and search engines without putting type on the design. */}
+  <h1 class="visually-hidden">Recordings</h1>
+
+  <MobileYearBar releases={releases} />
+
+  <ol class="releases">
+    {releases.map((r, i) => (
+      <li><ReleaseRow release={r} index={i} /></li>
+    ))}
+  </ol>
+
+  <TimelineRail slot="rail" releases={releases} />
+</Base>
+
+<style>
+  .releases {
+    list-style: none;
+    padding: 0;
+    margin: var(--header-gap) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--release-gap);
+    /* Spec §3: tail space so the last release can reach the activation line. */
+    padding-bottom: var(--list-tail);
+  }
+</style>

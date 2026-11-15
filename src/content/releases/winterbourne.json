@@ -1,0 +1,17 @@
+{
+  "title": "Winterbourne",
+  "artist": "Dismal Nitch",
+  "role": "Bass, production",
+  "date": "2021-04",
+  "format": "EP",
+  "cover": "/covers/winterbourne.svg",
+  "coverAlt": "Pale wash breaking across the lower third of a dark field",
+  "outlets": [
+    { "platform": "bandcamp", "url": "https://example.bandcamp.com/album/winterbourne" }
+  ],
+  "myPart": "The first thing we put out under this name.",
+  "credits": [
+    { "role": "Bass, production", "name": "Kevin Hyde" },
+    { "role": "Vocals, guitar", "name": "Tessa Marchetti" }
+  ]
+}

@@ -1,0 +1,136 @@
+---
+import { year, month, hasPlayer, type Release } from '../lib/releases';
+import OutletList from './OutletList.astro';
+
+interface Props { release: Release; index: number }
+const { release, index } = Astro.props;
+const d = release.data;
+const slug = release.id;
+const href = `/r/${slug}`;
+const y = year(d.date);
+const m = month(d.date);
+---
+<article class="release" id={slug} data-release data-slug={slug} data-year={y} data-title={d.title}>
+  <div class="release__date">
+    <span class="release__year">{y}</span>
+    {m && <span class="release__month">{m}</span>}
+  </div>
+
+  <a class="release__cover" href={href} tabindex="-1" aria-hidden="true">
+    <img
+      src={d.cover}
+      alt=""
+      width="1400"
+      height="1400"
+      loading={index < 2 ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  </a>
+
+  <div class="release__info">
+    <p class="eyebrow">{d.format}</p>
+    <h2 class="release__title"><a href={href}>{d.title}</a></h2>
+    <p class="release__artist">{d.artist}</p>
+    <p class="release__role">{d.role}</p>
+
+    <OutletList
+      outlets={d.outlets}
+      playHereHref={hasPlayer(release) ? `${href}#play` : undefined}
+    />
+  </div>
+</article>
+
+<style>
+  .release {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--row-gap-y) var(--row-gap-x);
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+    scroll-margin-top: 40px;
+  }
+
+  /* ---- Hanging date ---- */
+  .release__date {
+    flex: 0 0 var(--date-col);
+    width: var(--date-col);
+  }
+  .release__year {
+    display: block;
+    font-weight: 700;
+    font-size: var(--fs-year);
+    line-height: 1;
+    letter-spacing: var(--tracking-year);
+    color: var(--text);
+  }
+  .release__month {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-sm);
+    color: var(--muted);
+  }
+
+  /* ---- Cover ---- */
+  .release__cover {
+    flex: 0 1 var(--cover-basis);
+    min-width: 0;
+    display: block;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .release__cover img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--bg-raised);
+  }
+  .release__cover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgb(0 0 0 / 0.55);
+  }
+
+  /* ---- Info ---- */
+  .release__info {
+    flex: 1 1 var(--info-min);
+    min-width: var(--info-min);
+    align-self: flex-start;
+  }
+  .release__title {
+    font-weight: 700;
+    font-size: var(--fs-title);
+    line-height: 1.15;
+    letter-spacing: var(--tracking-tight);
+    margin-top: 8px;
+  }
+  .release__title a { color: var(--text); }
+  .release__artist {
+    margin-top: 6px;
+    font-size: var(--fs-artist);
+    color: var(--text-3);
+  }
+  .release__role {
+    margin-top: 2px;
+    font-size: var(--fs-role);
+    color: var(--muted-2);
+  }
+
+  /* Spec §6: below 640px each release stacks, date on one line. */
+  @media (max-width: 639px) {
+    .release { gap: 14px; }
+    .release__date {
+      flex: 1 1 100%;
+      width: auto;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .release__year { font-size: 1.5rem; }
+    .release__month { margin-top: 0; }
+    .release__cover { flex: 1 1 100%; }
+    .release__info { flex: 1 1 100%; min-width: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .release__cover:hover { transform: none; }
+  }
+</style>

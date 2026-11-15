@@ -1,0 +1,18 @@
+{
+  "title": "Anodyne",
+  "artist": "Pell Mell Choir",
+  "role": "Engineer",
+  "date": "2022-10",
+  "format": "Single",
+  "cover": "/covers/anodyne.svg",
+  "coverAlt": "Even wash of warm grey with a faint central glow",
+  "outlets": [
+    { "platform": "apple", "url": "https://music.apple.com/us/album/anodyne/0000000000" },
+    { "platform": "spotify", "url": "https://open.spotify.com/track/0000000000anodyne" }
+  ],
+  "myPart": "Engineered a fourteen-person choir in a space built for eight. Worth it.",
+  "credits": [
+    { "role": "Engineer", "name": "Kevin Hyde" },
+    { "role": "Direction", "name": "Hollis Nakamura" }
+  ]
+}

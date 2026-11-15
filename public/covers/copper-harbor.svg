@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1400" width="1400" height="1400" role="img">
+<defs>
+<filter id="b"><feGaussianBlur stdDeviation="46"/></filter>
+<linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#4a2f1d"/><stop offset="1" stop-color="#141210"/>
+</linearGradient>
+<radialGradient id="g2"><stop offset="0" stop-color="#e8a269" stop-opacity=".7"/><stop offset="1" stop-color="#e8a269" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1400" height="1400" fill="url(#g)"/>
+<rect x="0" y="200" width="1400" height="70" fill="#e8a269" opacity="0.75"/><rect x="0" y="410" width="1400" height="62" fill="#e8a269" opacity="0.66"/><rect x="0" y="620" width="1400" height="54" fill="#e8a269" opacity="0.57"/><rect x="0" y="830" width="1400" height="46" fill="#e8a269" opacity="0.48"/><rect x="0" y="1040" width="1400" height="38" fill="#e8a269" opacity="0.39"/>
+</svg>

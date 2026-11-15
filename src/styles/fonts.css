@@ -1,0 +1,28 @@
+/* Self-hosted DM Sans / DM Mono, latin subset.
+   Keeps the site free of a third-party font CDN request. */
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/fonts/dm-sans-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('/fonts/dm-sans-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal; font-weight: 700; font-display: swap;
+  src: url('/fonts/dm-sans-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal; font-weight: 400; font-display: swap;
+  src: url('/fonts/dm-mono-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal; font-weight: 500; font-display: swap;
+  src: url('/fonts/dm-mono-500.woff2') format('woff2');
+}

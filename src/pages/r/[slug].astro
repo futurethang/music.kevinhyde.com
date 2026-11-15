@@ -1,0 +1,167 @@
+---
+import Base from '../../layouts/Base.astro';
+import OutletList from '../../components/OutletList.astro';
+import Player from '../../components/Player.astro';
+import { allReleases, year, monthLong, hasPlayer } from '../../lib/releases';
+
+export async function getStaticPaths() {
+  const releases = await allReleases();
+  return releases.map((release) => ({
+    params: { slug: release.id },
+    props: { release },
+  }));
+}
+
+const { release } = Astro.props;
+const d = release.data;
+const y = year(d.date);
+const m = monthLong(d.date);
+const player = hasPlayer(release);
+const outlets = d.outlets ?? [];
+---
+<Base title={`${d.title} — ${d.artist} — Kevin Hyde`} description={d.myPart ?? `${d.title} by ${d.artist}. ${d.role}.`}>
+  <p class="back">
+    <a href={`/#${release.id}`}>&larr; All recordings</a>
+  </p>
+
+  <article class="detail">
+    <div class="detail__cover">
+      <img src={d.cover} alt={d.coverAlt} width="1400" height="1400" decoding="async" />
+    </div>
+
+    <div class="detail__main">
+      <p class="eyebrow">{d.format}</p>
+      <h1 class="detail__title">{d.title}</h1>
+      <p class="detail__artist">{d.artist}</p>
+      <p class="detail__date">
+        <span class="detail__year">{y}</span>
+        {m && <span class="detail__month">{m}</span>}
+      </p>
+
+      {d.myPart && (
+        <section class="block">
+          <h2 class="eyebrow">My part</h2>
+          <p class="detail__part">{d.myPart}</p>
+        </section>
+      )}
+
+      {player && (
+        <section class="block">
+          <h2 class="eyebrow">Play here</h2>
+          <Player tracks={d.selfHosted!.tracks} />
+        </section>
+      )}
+
+      {outlets.length > 0 && (
+        <section class="block">
+          {/* Heading reads "Listen" when there's no player of our own. */}
+          <h2 class="eyebrow">{player ? 'Also on' : 'Listen'}</h2>
+          <OutletList outlets={outlets} hints rowHeight={48} />
+        </section>
+      )}
+
+      {d.credits.length > 0 && (
+        <section class="block">
+          <h2 class="eyebrow">Credits</h2>
+          <dl class="credits">
+            {d.credits.map((c) => (
+              <>
+                <dt>{c.role}</dt>
+                <dd>{c.name}</dd>
+              </>
+            ))}
+          </dl>
+        </section>
+      )}
+    </div>
+  </article>
+</Base>
+
+<style>
+  .back { margin-top: 28px; }
+  .back a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-size: var(--fs-role);
+    color: var(--muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .back a:hover { color: var(--text); }
+
+  .detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 40px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    padding-bottom: 80px;
+  }
+
+  .detail__cover {
+    flex: 1 1 420px;
+    max-width: 600px;
+    min-width: 0;
+  }
+  .detail__cover img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--bg-raised);
+    box-shadow: 0 30px 70px rgb(0 0 0 / 0.6);
+  }
+
+  .detail__main { flex: 1 1 360px; min-width: 0; }
+
+  .detail__title {
+    font-weight: 700;
+    font-size: var(--fs-h1);
+    line-height: 1.08;
+    letter-spacing: var(--tracking-tight);
+    margin-top: 10px;
+  }
+  .detail__artist {
+    margin-top: 8px;
+    font-size: var(--fs-brand);
+    color: var(--text-3);
+  }
+  .detail__date {
+    margin-top: 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .detail__year {
+    font-weight: 700;
+    font-size: var(--fs-detail-year);
+    letter-spacing: var(--tracking-year);
+    color: var(--text);
+  }
+  .detail__month {
+    font-family: var(--font-mono);
+    font-size: var(--fs-mono-sm);
+    color: var(--muted);
+  }
+
+  .block { margin-top: 36px; }
+  .detail__part {
+    margin-top: 10px;
+    color: var(--text-3);
+    max-width: 52ch;
+  }
+
+  .credits {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 20px;
+    font-size: var(--fs-role);
+  }
+  .credits dt { color: var(--muted-2); }
+  .credits dd { margin: 0; color: var(--text-3); }
+
+  @media (max-width: 639px) {
+    .detail { gap: 24px; }
+    .detail__cover { flex: 1 1 100%; }
+  }
+</style>

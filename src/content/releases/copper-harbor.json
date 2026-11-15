@@ -1,0 +1,16 @@
+{
+  "title": "Copper Harbor",
+  "artist": "Sawback",
+  "role": "Additional engineering",
+  "date": "2018",
+  "format": "LP",
+  "cover": "/covers/copper-harbor.svg",
+  "coverAlt": "Burnished copper tone banded with deep shadow",
+  "outlets": [
+    { "platform": "other", "url": "https://example.com/sawback/copper-harbor", "label": "Sawback.net" }
+  ],
+  "myPart": "Came in for two days of overdubs near the end. A small credit on a record I still like a lot.",
+  "credits": [
+    { "role": "Additional engineering", "name": "Kevin Hyde" }
+  ]
+}

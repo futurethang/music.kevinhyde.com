@@ -1,0 +1,24 @@
+{
+  "title": "Low Ceiling",
+  "artist": "Dismal Nitch",
+  "role": "Bass, engineering, co-production",
+  "date": "2025-08",
+  "format": "LP",
+  "cover": "/covers/low-ceiling.svg",
+  "coverAlt": "Heavy dark band pressing down on a narrow bright strip",
+  "outlets": [
+    { "platform": "bandcamp", "url": "https://example.bandcamp.com/album/low-ceiling" },
+    { "platform": "spotify", "url": "https://open.spotify.com/album/0000000000lowceiling" },
+    { "platform": "apple", "url": "https://music.apple.com/us/album/low-ceiling/0000000000" },
+    { "platform": "youtube", "url": "https://www.youtube.com/playlist?list=PL0000000000lowceiling" }
+  ],
+  "myPart": "The long one. Ten songs, eleven months, and a ceiling we kept hitting our heads on. Bass throughout, engineered the whole thing, co-produced with Tessa.",
+  "credits": [
+    { "role": "Bass", "name": "Kevin Hyde" },
+    { "role": "Engineer", "name": "Kevin Hyde" },
+    { "role": "Co-production", "name": "Kevin Hyde, Tessa Marchetti" },
+    { "role": "Vocals, guitar", "name": "Tessa Marchetti" },
+    { "role": "Drums", "name": "Owen Brandt" },
+    { "role": "Master", "name": "Ilse Verhoeven" }
+  ]
+}

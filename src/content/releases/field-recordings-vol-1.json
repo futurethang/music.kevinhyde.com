@@ -1,0 +1,31 @@
+{
+  "title": "Field Recordings, Vol. 1",
+  "artist": "Kevin Hyde",
+  "role": "Everything",
+  "date": "2024",
+  "format": "Self-released",
+  "cover": "/covers/field-recordings-vol-1.svg",
+  "coverAlt": "Scattered pale marks across a dark ground",
+  "outlets": [],
+  "selfHosted": {
+    "tracks": [
+      {
+        "title": "Ballard Locks, 6am",
+        "src": "/audio/field-ballard-locks.mp3",
+        "duration": "0:08"
+      },
+      {
+        "title": "Ferry, Fauntleroy",
+        "src": "/audio/field-fauntleroy.mp3",
+        "duration": "0:13"
+      },
+      {
+        "title": "Rain on the Skylight",
+        "src": "/audio/field-skylight.mp3",
+        "duration": "0:21"
+      }
+    ]
+  },
+  "myPart": "A year of carrying a recorder around. No overdubs, no edits beyond trimming the ends.",
+  "credits": []
+}

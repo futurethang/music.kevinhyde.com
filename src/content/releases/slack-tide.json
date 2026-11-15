@@ -1,0 +1,17 @@
+{
+  "title": "Slack Tide",
+  "artist": "The Vane",
+  "role": "Engineer",
+  "date": "2025-11",
+  "format": "Single",
+  "cover": "/covers/slack-tide.svg",
+  "coverAlt": "Flat grey plane broken by a single thin line",
+  "outlets": [
+    { "platform": "spotify", "url": "https://open.spotify.com/track/0000000000slacktide" }
+  ],
+  "myPart": "Engineered the session. One microphone on the room, which is the only reason it sounds like that.",
+  "credits": [
+    { "role": "Engineer", "name": "Kevin Hyde" },
+    { "role": "Written by", "name": "The Vane" }
+  ]
+}

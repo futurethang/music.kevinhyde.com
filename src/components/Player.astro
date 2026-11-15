@@ -1,0 +1,234 @@
+---
+interface Props {
+  tracks: { title: string; src: string; duration?: string }[];
+}
+const { tracks } = Astro.props;
+---
+<div class="player" id="play" data-player>
+  <audio data-player-audio preload="metadata"></audio>
+
+  <ul class="player__tracks">
+    {tracks.map((t, i) => (
+      <li class="player__track" data-track data-src={t.src} data-title={t.title}>
+        <button type="button" class="player__btn" data-play aria-label={`Play ${t.title}`}>
+          <svg class="player__icon player__icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+          </svg>
+          <svg class="player__icon player__icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 5.5h3.2v13H8zM12.8 5.5H16v13h-3.2z" fill="currentColor" />
+          </svg>
+        </button>
+
+        <span class="player__title">{t.title}</span>
+        <span class="player__time" data-time>
+          <span data-cur>0:00</span> / <span data-dur>{t.duration ?? '—:—'}</span>
+        </span>
+
+        <div
+          class="player__bar"
+          data-bar
+          role="slider"
+          tabindex="0"
+          aria-label={`Seek within ${t.title}`}
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          aria-valuetext="0 percent"
+        >
+          <div class="player__progress" data-progress></div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .player {
+    border: 1px solid var(--rule);
+    padding: 6px 18px;
+    margin-top: 12px;
+  }
+  .player__tracks { list-style: none; padding: 0; margin: 0; }
+
+  .player__track {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px 14px;
+    padding: 14px 0;
+  }
+  .player__track + .player__track { border-top: 1px solid var(--rule); }
+
+  .player__btn {
+    grid-row: span 2;
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    border: 1px solid var(--rule-strong);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+  }
+  .player__btn:hover { border-color: var(--text-3); background: var(--bg-raised); }
+
+  .player__icon { width: 20px; height: 20px; }
+  .player__icon--pause { display: none; }
+  .player__track[data-playing] .player__icon--play { display: none; }
+  .player__track[data-playing] .player__icon--pause { display: block; }
+
+  .player__title { font-size: var(--fs-role); color: var(--text); }
+
+  .player__time {
+    font-family: var(--font-mono);
+    font-size: var(--fs-eyebrow);
+    color: var(--muted-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .player__bar {
+    grid-column: 2 / -1;
+    height: 3px;
+    background: var(--rule);
+    cursor: pointer;
+    position: relative;
+  }
+  /* Bigger hit area than the 3px it looks like. */
+  .player__bar::before {
+    content: '';
+    position: absolute;
+    inset: -10px 0;
+  }
+  .player__progress {
+    height: 100%;
+    width: 0%;
+    background: var(--text-3);
+  }
+  .player__track[data-playing] .player__progress { background: var(--text); }
+</style>
+
+<script>
+  function fmt(s: number): string {
+    if (!isFinite(s) || s < 0) return '0:00';
+    return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-player]').forEach((player) => {
+    const audio = player.querySelector<HTMLAudioElement>('[data-player-audio]');
+    const tracks = Array.from(player.querySelectorAll<HTMLElement>('[data-track]'));
+    if (!audio || !tracks.length) return;
+
+    // Spec §7: one row per track, a single <audio> element behind them all.
+    let current = -1;
+
+    function rowOf(i: number) {
+      const row = tracks[i];
+      return {
+        row,
+        bar: row.querySelector<HTMLElement>('[data-bar]')!,
+        progress: row.querySelector<HTMLElement>('[data-progress]')!,
+        cur: row.querySelector<HTMLElement>('[data-cur]')!,
+        dur: row.querySelector<HTMLElement>('[data-dur]')!,
+        btn: row.querySelector<HTMLButtonElement>('[data-play]')!,
+      };
+    }
+
+    function reset(i: number) {
+      if (i < 0) return;
+      const { row, progress, cur, bar } = rowOf(i);
+      delete row.dataset.playing;
+      progress.style.width = '0%';
+      cur.textContent = '0:00';
+      bar.setAttribute('aria-valuenow', '0');
+      bar.setAttribute('aria-valuetext', '0 percent');
+      rowOf(i).btn.setAttribute('aria-label', `Play ${row.dataset.title}`);
+    }
+
+    function select(i: number) {
+      if (current === i) return;
+      reset(current);
+      current = i;
+      audio.src = tracks[i].dataset.src!;
+      audio.load();
+    }
+
+    tracks.forEach((row, i) => {
+      const { btn, bar } = rowOf(i);
+
+      btn.addEventListener('click', () => {
+        if (current !== i) {
+          select(i);
+          audio.play();
+        } else if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      });
+
+      function seekToRatio(ratio: number) {
+        if (current !== i) select(i);
+        const d = audio.duration;
+        if (isFinite(d)) audio.currentTime = Math.max(0, Math.min(1, ratio)) * d;
+      }
+
+      bar.addEventListener('click', (e) => {
+        const r = bar.getBoundingClientRect();
+        seekToRatio((e.clientX - r.left) / r.width);
+      });
+
+      // Spec §7 + §9: the seek bar responds to arrow keys.
+      bar.addEventListener('keydown', (e) => {
+        const d = audio.duration;
+        const step = e.shiftKey ? 10 : 5;
+        let handled = true;
+        if (current !== i) select(i);
+        switch (e.key) {
+          case 'ArrowRight': case 'ArrowUp':
+            if (isFinite(d)) audio.currentTime = Math.min(d, audio.currentTime + step); break;
+          case 'ArrowLeft': case 'ArrowDown':
+            if (isFinite(d)) audio.currentTime = Math.max(0, audio.currentTime - step); break;
+          case 'Home': audio.currentTime = 0; break;
+          case 'End': if (isFinite(d)) audio.currentTime = d; break;
+          case ' ': case 'Enter':
+            audio.paused ? audio.play() : audio.pause(); break;
+          default: handled = false;
+        }
+        if (handled) e.preventDefault();
+      });
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (current < 0) return;
+      const { progress, cur, bar } = rowOf(current);
+      const d = audio.duration;
+      const pct = isFinite(d) && d > 0 ? (audio.currentTime / d) * 100 : 0;
+      progress.style.width = `${pct}%`;
+      cur.textContent = fmt(audio.currentTime);
+      bar.setAttribute('aria-valuenow', String(Math.round(pct)));
+      bar.setAttribute('aria-valuetext', `${fmt(audio.currentTime)} of ${fmt(d)}`);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      if (current < 0) return;
+      rowOf(current).dur.textContent = fmt(audio.duration);
+    });
+
+    audio.addEventListener('play', () => {
+      if (current < 0) return;
+      const { row, btn } = rowOf(current);
+      row.dataset.playing = 'true';
+      btn.setAttribute('aria-label', `Pause ${row.dataset.title}`);
+    });
+
+    audio.addEventListener('pause', () => {
+      if (current < 0) return;
+      const { row, btn } = rowOf(current);
+      delete row.dataset.playing;
+      btn.setAttribute('aria-label', `Play ${row.dataset.title}`);
+    });
+
+    audio.addEventListener('ended', () => reset(current));
+  });
+</script>
