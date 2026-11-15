@@ -1,0 +1,33 @@
+{
+  "title": "Spring Cleaning",
+  "artist": "The Holy Alimonies",
+  "role": "Bass, vocals",
+  "date": "2015-05",
+  "format": "EP",
+  "cover": "/covers/spring-cleaning.jpg",
+  "coverAlt": "Cover art for “Spring Cleaning” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/album/spring-cleaning"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Guitars & lead vocals",
+      "name": "William Simons"
+    },
+    {
+      "role": "Lead guitars & vocals (lead vox on A few 2 Many)",
+      "name": "W.C. Mallard"
+    },
+    {
+      "role": "Bass guitar and vocals",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Drums, percussion, vocals",
+      "name": "Scott Lee"
+    }
+  ]
+}

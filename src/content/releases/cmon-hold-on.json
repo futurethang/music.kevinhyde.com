@@ -1,0 +1,15 @@
+{
+  "title": "C'mon Hold On",
+  "artist": "Waistcoat Fling",
+  "role": "Role to confirm",
+  "date": "2018-03",
+  "format": "Single",
+  "cover": "/covers/cmon-hold-on.svg",
+  "coverAlt": "Typographic placeholder cover for “C'mon Hold On” by Waistcoat Fling",
+  "outlets": [
+    {
+      "platform": "soundcloud",
+      "url": "https://soundcloud.com/user-694579421-638768670/cmon-hold-on"
+    }
+  ]
+}

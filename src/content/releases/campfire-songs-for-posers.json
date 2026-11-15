@@ -1,0 +1,49 @@
+{
+  "title": "Campfire Songs for Posers",
+  "artist": "The Holy Alimonies",
+  "role": "Piano, keys, backing vocals, artwork",
+  "date": "2022-03",
+  "format": "EP",
+  "cover": "/covers/campfire-songs-for-posers.jpg",
+  "coverAlt": "Cover art for “Campfire Songs for Posers” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/album/campfire-songs-for-posers"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Words and chords by W.B. Simons",
+      "name": "If You Only Knew"
+    },
+    {
+      "role": "Lead vocals, acoustic & electric guitars",
+      "name": "W.B. Simons"
+    },
+    {
+      "role": "Piano",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Sounds, audio manipulation and samples",
+      "name": "Migs"
+    },
+    {
+      "role": "Words and chords by W.B. Simons",
+      "name": "Claim to Fame"
+    },
+    {
+      "role": "Drums",
+      "name": "Dane Marcussen"
+    },
+    {
+      "role": "Guitar, backing vocals",
+      "name": "Luke De Army"
+    },
+    {
+      "role": "Words and chords by W.B. Simons",
+      "name": "You Don’t Say"
+    }
+  ]
+}

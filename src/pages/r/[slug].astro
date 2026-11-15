@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import { cover, isVector } from '../../lib/covers';
 import OutletList from '../../components/OutletList.astro';
 import Player from '../../components/Player.astro';
 import { allReleases, year, monthLong, hasPlayer } from '../../lib/releases';
@@ -18,6 +20,7 @@ const y = year(d.date);
 const m = monthLong(d.date);
 const player = hasPlayer(release);
 const outlets = d.outlets ?? [];
+const art = cover(d.cover);
 ---
 <Base title={`${d.title} — ${d.artist} — Kevin Hyde`} description={d.myPart ?? `${d.title} by ${d.artist}. ${d.role}.`}>
   <p class="back">
@@ -26,7 +29,12 @@ const outlets = d.outlets ?? [];
 
   <article class="detail">
     <div class="detail__cover">
-      <img src={d.cover} alt={d.coverAlt} width="1400" height="1400" decoding="async" />
+      {isVector(d.cover) ? (
+        <img src={art.src} alt={d.coverAlt} width="1400" height="1400" decoding="async" />
+      ) : (
+        <Image src={art} alt={d.coverAlt} widths={[600, 1200]}
+               sizes="(max-width: 639px) 100vw, 600px" loading="eager" decoding="async" />
+      )}
     </div>
 
     <div class="detail__main">

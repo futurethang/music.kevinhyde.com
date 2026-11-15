@@ -1,0 +1,15 @@
+{
+  "title": "Itchy Demos",
+  "artist": "The Fish Man Band",
+  "role": "Role to confirm",
+  "date": "2016-06",
+  "format": "EP",
+  "cover": "/covers/itchy-demos.jpg",
+  "coverAlt": "Cover art for “Itchy Demos” by The Fish Man Band",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://fishmanband.bandcamp.com/album/itchy-demos"
+    }
+  ]
+}

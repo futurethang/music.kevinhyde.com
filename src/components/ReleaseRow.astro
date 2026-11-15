@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { year, month, hasPlayer, type Release } from '../lib/releases';
+import { cover, isVector } from '../lib/covers';
 import OutletList from './OutletList.astro';
 
 interface Props { release: Release; index: number }
@@ -9,6 +11,7 @@ const slug = release.id;
 const href = `/r/${slug}`;
 const y = year(d.date);
 const m = month(d.date);
+const art = cover(d.cover);
 ---
 <article class="release" id={slug} data-release data-slug={slug} data-year={y} data-title={d.title}>
   <div class="release__date">
@@ -17,14 +20,20 @@ const m = month(d.date);
   </div>
 
   <a class="release__cover" href={href} tabindex="-1" aria-hidden="true">
-    <img
-      src={d.cover}
-      alt=""
-      width="1400"
-      height="1400"
-      loading={index < 2 ? 'eager' : 'lazy'}
-      decoding="async"
-    />
+    {isVector(d.cover) ? (
+      <img src={art.src} alt="" width="1400" height="1400"
+           loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+    ) : (
+      <Image
+        src={art}
+        alt=""
+        widths={[380, 560, 760]}
+        sizes="(max-width: 639px) calc(100vw - 32px), 380px"
+        loading={index === 0 ? 'eager' : 'lazy'}
+        fetchpriority={index === 0 ? 'high' : undefined}
+        decoding="async"
+      />
+    )}
   </a>
 
   <div class="release__info">

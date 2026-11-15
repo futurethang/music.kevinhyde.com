@@ -1,0 +1,15 @@
+{
+  "title": "Winter Song",
+  "artist": "Waistcoat Fling",
+  "role": "Role to confirm",
+  "date": "2018-03",
+  "format": "Single",
+  "cover": "/covers/winter-song.svg",
+  "coverAlt": "Typographic placeholder cover for “Winter Song” by Waistcoat Fling",
+  "outlets": [
+    {
+      "platform": "soundcloud",
+      "url": "https://soundcloud.com/user-694579421-638768670/winter-song"
+    }
+  ]
+}
