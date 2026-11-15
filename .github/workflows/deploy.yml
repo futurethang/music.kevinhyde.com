@@ -6,11 +6,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    # The default branch. Both names are listed so a later rename to `main`
-    # doesn't silently stop deploys.
-    branches:
-      - claude/music-site-kickoff-JDBzM
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
