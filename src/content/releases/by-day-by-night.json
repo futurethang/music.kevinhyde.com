@@ -1,0 +1,37 @@
+{
+  "title": "By Day By Night",
+  "artist": "Shadow Pattern",
+  "role": "Keys, organs, backing vocals, artwork",
+  "date": "2023-09",
+  "format": "EP",
+  "cover": "/covers/by-day-by-night.jpg",
+  "coverAlt": "Cover art for “By Day By Night” by Shadow Pattern",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://shadowpattern.bandcamp.com/album/by-day-by-night"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Drums",
+      "name": "Meesh Boscole"
+    },
+    {
+      "role": "Bass Guitar",
+      "name": "DKB"
+    },
+    {
+      "role": "Vocals, Tambourine",
+      "name": "Olivia Claire"
+    },
+    {
+      "role": "Guitar, Backing Vocals",
+      "name": "Stetson Curtis"
+    },
+    {
+      "role": "Keys, Organs, Backing Vocals",
+      "name": "Kevin Hyde"
+    }
+  ]
+}

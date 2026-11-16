@@ -59,6 +59,8 @@ const release = {
   coverAlt: `Cover art for ${title}`,
   // A release needs at least one outlet OR selfHosted, or the build fails.
   outlets: [],
+  // Delete selfHosted if the audio lives on Bandcamp/SoundCloud instead;
+  // a release needs either an outlet or selfHosted, not both.
   selfHosted: { tracks: [{ title, src: `/audio/${slug}.mp3` }] },
   myPart: '',
   credits: [{ role: 'Written, performed by', name: 'Kevin Hyde' }],
@@ -69,8 +71,11 @@ writeFileSync(file, JSON.stringify(release, null, 2) + '\n');
 console.log(`
   Created ${file}
 
-  Now drop in two files:
-    public/covers/${slug}.jpg     square, 1400x1400
+  Now add the cover:
+    src/assets/covers/${slug}.jpg    square, 1200x1200 or larger
+    (Astro resizes it and serves WebP; don't put it in public/)
+
+  Only if you're hosting the audio here too:
     public/audio/${slug}.mp3      ffmpeg -i master.wav -b:a 320k public/audio/${slug}.mp3
 
   Then edit the JSON:

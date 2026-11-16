@@ -1,0 +1,29 @@
+{
+  "title": "Demonstration",
+  "artist": "Shadow Pattern",
+  "role": "Keyboards, bass, engineering",
+  "date": "2021-08",
+  "format": "EP",
+  "cover": "/covers/demonstration.jpg",
+  "coverAlt": "Cover art for “Demonstration” by Shadow Pattern",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://shadowpattern.bandcamp.com/album/demonstration"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Guitars, Bass, Vox, Percussion",
+      "name": "Stetson"
+    },
+    {
+      "role": "Vox, Percussion",
+      "name": "Olivia"
+    },
+    {
+      "role": "Keyboards, Bass, Engineering",
+      "name": "Kevin"
+    }
+  ]
+}

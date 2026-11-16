@@ -1,0 +1,33 @@
+{
+  "title": "E Pluribus Unum",
+  "artist": "The Holy Alimonies",
+  "role": "Bass, backing vocals, artwork",
+  "date": "2016-01",
+  "format": "LP",
+  "cover": "/covers/e-pluribus-unum.jpg",
+  "coverAlt": "Cover art for “E Pluribus Unum” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/album/e-pluribus-unum"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Bass, backing vocals",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Drums, percussion, backing vocals",
+      "name": "Scott Lee"
+    },
+    {
+      "role": "Guitar, backing vocals",
+      "name": "Luke \"WC Mallard\" DeArmey"
+    },
+    {
+      "role": "Lead vocals, guitar and lapsteel",
+      "name": "W.B. Simons"
+    }
+  ]
+}

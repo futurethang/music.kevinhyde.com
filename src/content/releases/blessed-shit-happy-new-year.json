@@ -1,0 +1,33 @@
+{
+  "title": "Blessèd Shit & Happy New Year",
+  "artist": "The Holy Alimonies",
+  "role": "Bass, keyboards, vocals, artwork",
+  "date": "2014-01",
+  "format": "EP",
+  "cover": "/covers/blessed-shit-happy-new-year.jpg",
+  "coverAlt": "Cover art for “Blessèd Shit & Happy New Year” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/album/bless-d-shit-happy-new-year"
+    }
+  ],
+  "credits": [
+    {
+      "role": "Drums, percussion, voice",
+      "name": "Scott Lee"
+    },
+    {
+      "role": "Guitars, voice",
+      "name": "WC Mallard"
+    },
+    {
+      "role": "Bass, keyboards, voice",
+      "name": "Kevin Hyde"
+    },
+    {
+      "role": "Voice, guitars, lapsteel",
+      "name": "William Simons"
+    }
+  ]
+}

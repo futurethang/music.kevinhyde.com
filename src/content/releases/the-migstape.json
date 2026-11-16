@@ -1,0 +1,15 @@
+{
+  "title": "The Migstape",
+  "artist": "The Holy Alimonies",
+  "role": "Artwork",
+  "date": "2013-06",
+  "format": "EP",
+  "cover": "/covers/the-migstape.jpg",
+  "coverAlt": "Cover art for “The Migstape” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/album/the-migstape"
+    }
+  ]
+}

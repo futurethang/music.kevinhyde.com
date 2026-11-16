@@ -1,0 +1,15 @@
+{
+  "title": "All in the Drugs",
+  "artist": "The Holy Alimonies",
+  "role": "Role to confirm",
+  "date": "2013-06",
+  "format": "Single",
+  "cover": "/covers/all-in-the-drugs.jpg",
+  "coverAlt": "Cover art for “All in the Drugs” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/track/all-in-the-drugs"
+    }
+  ]
+}

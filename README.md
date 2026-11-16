@@ -53,25 +53,39 @@ src/
     index.astro             Timeline index
     r/[slug].astro          Release detail
   styles/tokens.css         Every colour, size, space, and duration
+  assets/covers/            Cover art — Astro resizes these and emits WebP
+  lib/covers.ts             Maps a release's cover string to its asset
 public/
-  covers/  audio/  fonts/   Static assets
+  audio/  fonts/            Served untouched
 scripts/
   new-release.mjs           The scaffold above
   generate-placeholder-covers.py
 ```
 
-## The seed data is fake
+## The catalogue
 
-Twelve dummy releases spanning 2014–2026, chosen to exercise every branch
-in the design: self-hosted-only, outlets-only, both at once, year-only
-dates, multi-track players, missing liner notes, missing credits, an
-`other` platform with a custom label, and several releases sharing a year
-so the rail's first-of-year labelling has something to do.
+18 releases, 2003–2023, pulled from Bandcamp and SoundCloud:
 
-Covers are generated SVG placeholders
-(`scripts/generate-placeholder-covers.py`). Audio files are short sine
-tones. Everything in `src/content/releases/` is disposable — delete it all
-and run `npm run new` when the real catalogue is ready.
+| Source | Releases |
+| --- | --- |
+| [The Holy Alimonies](https://theholyalimonies.bandcamp.com/) | 7 |
+| [Shadow Pattern](https://shadowpattern.bandcamp.com/) | 2 |
+| [The Fish Man Band](https://fishmanband.bandcamp.com/) | 1 |
+| [Waistcoat Fling](https://waistcoatfling.bandcamp.com/) — Bandcamp | 1 |
+| [Waistcoat Fling](https://soundcloud.com/user-694579421-638768670) — SoundCloud | 7 singles |
+
+Cover art is the real artwork from each release, pulled from Bandcamp and
+re-encoded. The seven SoundCloud singles have no artwork on SoundCloud, so
+they use generated typographic placeholders
+(`scripts/generate-placeholder-covers.py` builds the same kind of thing).
+
+**Eight releases have `"role": "Role to confirm"`** — their credits never
+name Kevin, so his part couldn't be derived from the source. Find them
+with:
+
+```bash
+grep -l "Role to confirm" src/content/releases/*.json
+```
 
 ## Verified against the spec
 
@@ -81,8 +95,10 @@ bottom-of-page forcing, click-to-scroll with `replaceState`, deep links,
 conditional detail sections, the player and its arrow-key seeking,
 keyboard reachability, and no horizontal scroll at 390/768/1440.
 
-Lighthouse on `/` and `/r/[slug]`: **performance 100, accessibility 100,
-best practices 100, SEO 100.**
+Lighthouse on `/` and `/r/[slug]`: **accessibility 100, best practices 100,
+SEO 100, performance 93.** Performance is below 100 only because real
+photographic cover art is now the LCP element; CLS and blocking time are
+both 0.
 
 ## Decisions I had to make
 

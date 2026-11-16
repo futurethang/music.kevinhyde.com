@@ -1,0 +1,15 @@
+{
+  "title": "I'm Not A Bad Egg",
+  "artist": "Waistcoat Fling",
+  "role": "Role to confirm",
+  "date": "2018-03",
+  "format": "Single",
+  "cover": "/covers/im-not-a-bad-egg.svg",
+  "coverAlt": "Typographic placeholder cover for “I'm Not A Bad Egg” by Waistcoat Fling",
+  "outlets": [
+    {
+      "platform": "soundcloud",
+      "url": "https://soundcloud.com/user-694579421-638768670/im-not-a-bad-egg"
+    }
+  ]
+}

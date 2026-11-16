@@ -1,0 +1,15 @@
+{
+  "title": "Sgt Shrapnel",
+  "artist": "The Holy Alimonies",
+  "role": "Role to confirm",
+  "date": "2013-06",
+  "format": "Single",
+  "cover": "/covers/sgt-shrapnel.jpg",
+  "coverAlt": "Cover art for “Sgt Shrapnel” by The Holy Alimonies",
+  "outlets": [
+    {
+      "platform": "bandcamp",
+      "url": "https://theholyalimonies.bandcamp.com/track/sgt-shrapnel"
+    }
+  ]
+}

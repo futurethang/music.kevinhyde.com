@@ -8,13 +8,19 @@ One command, two files, one commit. No CMS, no platform, no account.
 npm run new -- "Floating Apart"
 ```
 
-That writes `src/content/releases/floating-apart.json` and prints the two
-files to drop in next:
+That writes `src/content/releases/floating-apart.json` and prints what to
+add next:
 
 ```
-public/covers/floating-apart.jpg     square, 1400x1400
-public/audio/floating-apart.mp3      320kbps
+src/assets/covers/floating-apart.jpg    square, 1200x1200 or larger
+public/audio/floating-apart.mp3         320kbps, only if self-hosting
 ```
+
+**Covers go in `src/assets/covers/`, not `public/`.** Astro resizes them
+and serves WebP with a `srcset`; files in `public/` are served untouched.
+The `cover` field in the JSON stays a plain `/covers/<name>` string —
+`src/lib/covers.ts` maps it onto the imported asset, and the build fails
+with the expected path if the file is missing.
 
 Then open the JSON, write a sentence or two in `myPart`, and commit.
 Pushing to the default branch builds and deploys to GitHub Pages.
